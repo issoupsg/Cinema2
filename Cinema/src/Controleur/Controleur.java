@@ -1,15 +1,10 @@
 package Controleur;
 
-import Modele.Bouton;
-import Modele.BoutonAppuie;
-import Modele.BoutonRecherche;
-import Modele.Connexion;
-import Vue.General;
-import Vue.Page;
+import Modele.*;
+import Vue.*;
 
 import javax.swing.*;
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class Controleur {
 

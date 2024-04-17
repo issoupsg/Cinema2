@@ -14,7 +14,8 @@ public  class Bouton {
     }
     public  JButton CreaBouton(){
         return null;
-    };
+    }
+
     public JTextField text(){return null;};
     public int getX() {
         return 0;

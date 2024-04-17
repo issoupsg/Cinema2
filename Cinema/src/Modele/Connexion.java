@@ -11,7 +11,8 @@ public class Connexion {
         Class.forName("com.mysql.cj.jdbc.Driver");
 
         // Connexion à la base de données
-        String urlDatabase = "jdbc:mysql://localhost:3306/" + databaseName + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+        //String urlDatabase = "jdbc:mysql://localhost:3306/" + databaseName + "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+        String urlDatabase = "jdbc:mysql://localhost:3306/cinema";
         conn = DriverManager.getConnection(urlDatabase, username, password);
 
         // Préparation de l'instruction SQL pour l'insertion d'un film, sans inclure l'ID
