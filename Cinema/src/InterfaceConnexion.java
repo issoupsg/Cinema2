@@ -4,10 +4,10 @@ import java.awt.event.*;
 import java.sql.*;
 
 public class InterfaceConnexion {
-    private JFrame frame;
-    private JButton boutonConnexion;
-    private JButton boutonInvite;
-    private JButton boutonInscription;
+    public JFrame frame;
+    public JButton boutonConnexion;
+    public JButton boutonInvite;
+    public JButton boutonInscription;
     public int type;
 
     // Constructeur
@@ -22,7 +22,7 @@ public class InterfaceConnexion {
 
         // Création du bouton de connexion
         boutonConnexion = new JButton("Connexion");
-        boutonConnexion.addActionListener(new ActionListener() {
+        /*boutonConnexion.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Code à exécuter lorsque le bouton de connexion est cliqué
                 frame.dispose(); // Fermer la fenêtre actuelle
@@ -31,10 +31,10 @@ public class InterfaceConnexion {
                 afficherInterfaceConnexion();
             }
         });
-
+*/
         // Création du bouton d'invité
         boutonInvite = new JButton("Invité");
-        boutonInvite.addActionListener(new ActionListener() {
+     /*   boutonInvite.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Code à exécuter lorsque le bouton d'invité est cliqué
                 frame.dispose(); // Fermer la fenêtre actuelle
@@ -44,19 +44,10 @@ public class InterfaceConnexion {
 
             }
         });
-
+*/
         // Création du bouton de connexion
         boutonInscription = new JButton("Inscription");
-        boutonInscription.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Code à exécuter lorsque le bouton de connexion est cliqué
-                frame.dispose(); // Fermer la fenêtre actuelle
-
-                // Afficher l'interface de saisie utilisateur et mot de passe
-                // CODE D'INSCRIPTION ICI
-            }
-        });
-
+        //ButtonInscription(boutonInscription,frame);
         // Ajout des boutons à la fenêtre principale
         frame.add(boutonConnexion);
         frame.add(boutonInvite);

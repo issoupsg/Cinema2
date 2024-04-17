@@ -43,6 +43,7 @@ public class Page extends JFrame {
 
 
     }
+
     public JPanel getPanel(){
         return panel;
     }
