@@ -22,8 +22,8 @@ public class General extends JFrame {
     public void General() throws SQLException, ClassNotFoundException {
         String databaseName = "cinema"; // Remplacez par le nom de votre base de données
         String utilisateur = "root"; // Utilisateur par défaut pour MySQL
-        //String motDePasse = ""; // Remplacez par votre mot de passe
-        String motDePasse = "Jack123456"; // mdp pour jack
+        String motDePasse = ""; // Remplacez par votre mot de passe
+        //String motDePasse = "Jack123456"; // mdp pour jack
         Connexion connexionBDD = new Connexion(databaseName, utilisateur, motDePasse);
 
         // Création de la fenêtre principale

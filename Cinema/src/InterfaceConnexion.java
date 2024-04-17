@@ -125,7 +125,7 @@ public class InterfaceConnexion {
         // Connexion à la base de données (à adapter selon votre configuration)
         String URL_BDD = "jdbc:mysql://localhost:3306/cinema";
         String UTILISATEUR_BDD = "root";
-        String MOT_DE_PASSE_BDD = "Jack123456";
+        String MOT_DE_PASSE_BDD = "";
         Connection connexion = null;
         try {
             // Chargement du driver JDBC
