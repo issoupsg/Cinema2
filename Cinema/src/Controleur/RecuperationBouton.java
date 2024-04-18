@@ -4,7 +4,7 @@ import Modele.Connexion;
 import Modele.RechercheSql;
 import Vue.*;
 
-
+import Vue.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -86,7 +86,9 @@ public class RecuperationBouton {
                 frame.dispose(); // Fermer la fenêtre actuelle
 
                 // Afficher l'interface de saisie utilisateur et mot de passe
-                //afficherInterfaceConnexion();
+                AfficherInterfaceConnexion a = new AfficherInterfaceConnexion();
+                System.out.println("Affichage de l'interface de connexion");
+                a.afficherInterfaceConnexion(frame);
             }
         });
     }
@@ -121,6 +123,66 @@ public class RecuperationBouton {
                 // Afficher l'interface de saisie utilisateur et mot de passe
 
                 // CODE D'INSCRIPTION ICI
+            }
+        });
+    }
+    public void ButtonValider(JButton boutonValider,JTextField champUtilisateur, JPasswordField champMotDePasse, JFrame frame){
+        boutonValider.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Récupérer les valeurs saisies par l'utilisateur
+                String utilisateur = champUtilisateur.getText();
+                String motDePasse = new String(champMotDePasse.getPassword());
+                Verification v = new Verification();
+                AfficherInterfaceConnexion a = new AfficherInterfaceConnexion();
+                Generale g = new Generale();
+                // Afficher les informations saisies dans une nouvelle interface
+                System.out.println("BOUTON VALDER APPUUYER");
+                try {
+                    if(v.Verification(utilisateur,motDePasse)){
+                        frame.dispose();
+                        g.LancementJeux();
+                        // CODE DU JEUX
+                    }
+                    else {
+                        a.afficherInfosErreur(frame);
+                    }
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                } catch (ClassNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                // Fermer la fenêtre de connexion
+                frame.dispose();
+            }
+        });
+    }
+    public void ButtonRetour(JButton boutonRetour,JFrame frame){
+        boutonRetour.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Fermer la fenêtre des informations utilisateur
+                frame.dispose();
+                Generale g = new Generale();
+                try {
+                    g.Generale();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                } catch (ClassNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+    }
+    public void ButtonRetour1(JButton boutonRetour,JFrame frame){
+        boutonRetour.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                AfficherInterfaceConnexion a = new AfficherInterfaceConnexion();
+                a.afficherInterfaceConnexion(frame);
+                // Fermer la fenêtre des informations utilisateur
+                frame.dispose();
+
+                // Afficher à nouveau la fenêtre principale
+                //frame.setVisible(true);
             }
         });
     }

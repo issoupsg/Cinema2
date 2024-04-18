@@ -2,14 +2,14 @@ package Controleur;
 
 import Controleur.RecuperationBouton;
 import Controleur.RecuperationList;
+import Vue.AfficherInterfaceConnexion;
 import Modele.*;
 import Vue.*;
 
 import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import java.awt.*;
-import java.sql.Connection;
-import java.sql.SQLException;
+import java.sql.*;
 import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 public class Generale extends JFrame {
@@ -17,14 +17,13 @@ public class Generale extends JFrame {
     public int type;
 
     public Generale(){
-        this.type = 0;
     }
 
     public void Generale() throws SQLException, ClassNotFoundException {
         String databaseName = "cinema"; // Remplacez par le nom de votre base de données
         String utilisateur = "root"; // Utilisateur par défaut pour MySQL
-        String motDePasse = ""; // Remplacez par votre mot de passe
-        ////String motDePasse = "Jack123456"; // mdp pour jack
+        //String motDePasse = ""; // Remplacez par votre mot de passe
+        String motDePasse = "Jack123456"; // mdp pour jack
         Connexion connexionBDD = new Connexion(databaseName, utilisateur, motDePasse);
 
         // Création de la fenêtre principale
@@ -40,7 +39,6 @@ public class Generale extends JFrame {
         Bouton connexion = new BoutonAppuie(0,0,50,50,"Connexion");
         JButton connexion1 = connexion.CreaBouton();
         RecuperationBouton listener1 = new RecuperationBouton(connexion1); // Création de l'écouteur avec le bouton
-        /// listener1.ajouterListener();
         listener1.ButtonConnexion(connexion1,frame);
 
 
@@ -48,7 +46,6 @@ public class Generale extends JFrame {
         Bouton invite = new BoutonAppuie(0,0,50,50,"Invité");
         JButton invite1 = invite.CreaBouton();
         RecuperationBouton listener2 = new RecuperationBouton(invite1); // Création de l'écouteur avec le bouton
-        /*listener2.ajouterListener();*/
         listener2.ButtonInvite(invite1,frame);
 
 
@@ -56,7 +53,6 @@ public class Generale extends JFrame {
         Bouton inscription = new BoutonAppuie(0,0,50,50,"Inscription");
         JButton inscription1 = inscription.CreaBouton();
         RecuperationBouton listener3 = new RecuperationBouton(inscription1); // Création de l'écouteur avec le bouton
-        ///  listener3.ajouterListener();
         listener3.ButtonInscription(inscription1,frame);
 
         // Ajout des boutons à la fenêtre principale
@@ -75,7 +71,8 @@ public class Generale extends JFrame {
         System.out.println("Hello Palkis!");
         String databaseName = "Cinema"; // Remplacez par le nom de votre base de données
         String utilisateur = "root"; // Utilisateur par défaut pour MySQL
-        String motDePasse = ""; // Remplacez par votre mot de passe
+        //String motDePasse = ""; // Remplacez par votre mot de passe
+        String motDePasse = "Jack123456"; // mdp Jack
 
         try {
             Connexion connexion = new Connexion(databaseName, utilisateur, motDePasse);
@@ -158,5 +155,53 @@ public class Generale extends JFrame {
             throw new RuntimeException(e);
         }
 
+    }
+    public  boolean verifierUtilisateur(String utilisateur, String motDePasse) throws SQLException {
+        // Connexion à la base de données (à adapter selon votre configuration)
+        String URL_BDD = "jdbc:mysql://localhost:3306/cinema";
+        String UTILISATEUR_BDD = "root";
+        String MOT_DE_PASSE_BDD = "Jack123456";
+        Connection connexion = null;
+        try {
+            // Chargement du driver JDBC
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            // Etablissement de la connexion
+            connexion = DriverManager.getConnection(URL_BDD, UTILISATEUR_BDD, MOT_DE_PASSE_BDD);
+
+            // Si la connexion est établie avec succès
+            if (connexion != null) {
+
+                System.out.println("Connexion établie avec la base de données !");
+                PreparedStatement ps1 = connexion.prepareStatement("SELECT * FROM user");
+                ResultSet rs=ps1.executeQuery();
+                while(rs.next()){
+                    System.out.println(rs.getString("Utilisateur")+"\t"+rs.getString("mdp")+"\t"+rs.getInt("type"));
+                    if(rs.getString("Utilisateur").equals(utilisateur) && rs.getString("mdp").equals(motDePasse)){
+                        this.type=rs.getInt("type");
+                        return true;
+                    }
+                }
+                System.out.println("Type de membre: "+type);
+                // Vous pouvez maintenant effectuer des opérations sur la base de données
+            } else {
+                System.out.println("Echec de la connexion à la base de données !");
+            }
+
+            // TOUT LES EXCEPTIONS
+        } catch (SQLException e) {
+            System.out.println("Erreur de connexion : " + e.getMessage());
+        } catch (ClassNotFoundException e) {
+            System.out.println("Driver JDBC non trouvé : " + e.getMessage());
+        } finally {
+            // Fermeture de la connexion
+            try {
+                if (connexion != null) {
+                    connexion.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Erreur lors de la fermeture de la connexion : " + e.getMessage());
+            }
+        }
+        return false;
     }
 }
