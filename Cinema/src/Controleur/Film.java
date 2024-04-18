@@ -34,4 +34,32 @@ public class Film {
         }
     }
 
+    public Film(String nom_film, String auteur, int nbrplace, String image_film)
+    {
+        this.nom_film=nom_film;
+        this.auteur=auteur;
+        this.nbrplace=nbrplace;
+        this.image_film=image_film;
+    }
+
+    public int getId_auteur()
+    {
+        return id_auteur;
+    }
+    public String getNom_film()
+    {
+        return nom_film;
+    }
+    public String getAuteur()
+    {
+        return auteur;
+    }
+    public int getNbrplace()
+    {
+        return nbrplace;
+    }
+    public String getImage_film()
+    {
+        return image_film;
+    }
 }
