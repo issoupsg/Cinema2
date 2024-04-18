@@ -20,11 +20,9 @@ public class Generale extends JFrame {
     }
 
     public void Generale() throws SQLException, ClassNotFoundException {
-        String databaseName = "cinema"; // Remplacez par le nom de votre base de données
-        String utilisateur = "root"; // Utilisateur par défaut pour MySQL
-        //String motDePasse = ""; // Remplacez par votre mot de passe
-        String motDePasse = "Jack123456"; // mdp pour jack
-        Connexion connexionBDD = new Connexion(databaseName, utilisateur, motDePasse);
+        // Remplacez par votre mot de passe
+        ////String motDePasse = "Jack123456"; // mdp pour jack
+        Connexion connexionBDD = new Connexion();
 
         // Création de la fenêtre principale
         frame = new JFrame("Interface de Connexion");
@@ -69,13 +67,9 @@ public class Generale extends JFrame {
         Connexion conn=null;
 
         System.out.println("Hello Palkis!");
-        System.out.println("LE TYPE DE LA PERSONNE ENREGISTER: "+type);
-        String databaseName = "Cinema"; // Remplacez par le nom de votre base de données
-        String utilisateur = "root"; // Utilisateur par défaut pour MySQL
-        //String motDePasse = ""; // Remplacez par votre mot de passe
-        String motDePasse = "Jack123456"; // mdp Jack
+        // Remplacez par votre mot de passe
         try {
-            Connexion connexion = new Connexion(databaseName, utilisateur, motDePasse);
+            Connexion connexion = new Connexion();
             System.out.println("Connexion à la base de données réussie !");
 
 

@@ -15,7 +15,7 @@ public class ListPanel extends JPanel {
         setLayout(new BorderLayout());
 
         try {
-            Connexion conn = new Connexion("cinema", "root", "Jack123456");
+            Connexion conn = new Connexion();
             JList<String> nameList = new JList<>();
             nameList = conn.getlistFilms(nameList);
 

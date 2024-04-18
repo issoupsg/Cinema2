@@ -12,7 +12,7 @@ public class Page extends JFrame {
     JPanel panel;
     JPanel buffer2;
     JFrame frame;
-    JPanel buffer;
+    JPanel buffer,bufferText;
     ListPanel pan;
     JList<String>nameList;
 
@@ -26,6 +26,7 @@ public class Page extends JFrame {
         buffer2=new JPanel();
          nameList = new JList<>();
          pan = new ListPanel();
+         bufferText=new JPanel();
 
          pan.setPreferredSize(new Dimension(350, 400));
 
@@ -80,7 +81,7 @@ public class Page extends JFrame {
                 Image image1=image.getImage();
                 panel.revalidate();
                 panel.repaint();
-                Image newimg = image1.getScaledInstance(300,coordonnex,Image.SCALE_SMOOTH);
+                Image newimg = image1.getScaledInstance(300,getHeight(),Image.SCALE_SMOOTH);
                 ImageIcon resizedIcon = new ImageIcon(newimg);
                 JLabel label = new JLabel(resizedIcon);
                 buffer.removeAll();
@@ -103,6 +104,16 @@ public class Page extends JFrame {
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(panel, "Impossible de charger l'image", "Erreur", JOptionPane.ERROR_MESSAGE);
             }
+        });
+    }
+    public void ajouterResume(String resume){
+        SwingUtilities.invokeLater(() -> {
+            JLabel label =new JLabel(resume);
+            label.setPreferredSize(new Dimension(300,50));
+            panel.add(label,BorderLayout.SOUTH);
+            panel.revalidate();
+            panel.repaint();
+
         });
     }
 
