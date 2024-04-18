@@ -101,16 +101,15 @@ public class RecuperationBouton {
                 String motDePasse = "Jack123456"; // mdp pour jack
                 Connexion connexionBDD = null; */
                 frame.dispose(); // Fermer la fenêtre actuelle
+
                 Generale g = new Generale();
                 try {
-                    g.LancementJeux();
-                    g.type=0;
+                    g.LancementJeux(0);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 } catch (ClassNotFoundException ex) {
                     throw new RuntimeException(ex);
                 }
-
             }
         });
     }
@@ -132,15 +131,22 @@ public class RecuperationBouton {
                 // Récupérer les valeurs saisies par l'utilisateur
                 String utilisateur = champUtilisateur.getText();
                 String motDePasse = new String(champMotDePasse.getPassword());
-                Verification v = new Verification();
+                Connexion v = null;
                 AfficherInterfaceConnexion a = new AfficherInterfaceConnexion();
+                try {
+                    v = new Connexion("cinema","root","Jack123456");
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                } catch (ClassNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
                 Generale g = new Generale();
                 // Afficher les informations saisies dans une nouvelle interface
                 System.out.println("BOUTON VALDER APPUUYER");
                 try {
                     if(v.Verification(utilisateur,motDePasse)){
                         frame.dispose();
-                        g.LancementJeux();
+                        g.LancementJeux(v.getType(utilisateur,motDePasse));
                         // CODE DU JEUX
                     }
                     else {

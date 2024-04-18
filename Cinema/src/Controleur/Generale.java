@@ -63,17 +63,17 @@ public class Generale extends JFrame {
         // Rendre la fenêtre principale visible
         frame.setVisible(true);
     }
-    public void LancementJeux() throws SQLException, ClassNotFoundException {
+    public void LancementJeux(int type) throws SQLException, ClassNotFoundException {
         String nomfilm;
         Page Acceuil;
         Connexion conn=null;
 
         System.out.println("Hello Palkis!");
+        System.out.println("LE TYPE DE LA PERSONNE ENREGISTER: "+type);
         String databaseName = "Cinema"; // Remplacez par le nom de votre base de données
         String utilisateur = "root"; // Utilisateur par défaut pour MySQL
         //String motDePasse = ""; // Remplacez par votre mot de passe
         String motDePasse = "Jack123456"; // mdp Jack
-
         try {
             Connexion connexion = new Connexion(databaseName, utilisateur, motDePasse);
             System.out.println("Connexion à la base de données réussie !");

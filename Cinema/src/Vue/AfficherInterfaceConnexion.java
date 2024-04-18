@@ -1,15 +1,11 @@
 package Vue;
 
 import Controleur.RecuperationBouton;
-import Controleur.Verification;
 import Modele.Bouton;
 import Modele.BoutonAppuie;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 public class AfficherInterfaceConnexion {
     public void afficherInterfaceConnexion(JFrame frame) {
