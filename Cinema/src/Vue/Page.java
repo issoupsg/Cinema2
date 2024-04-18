@@ -18,7 +18,7 @@ public class Page extends JFrame {
         panel2=new JPanel();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //// frame.getContentPane().setBackground(Color.BLUE);
-
+        //// frame.getContentPane().setBackground(Color.BLUE);
         buffer=new JPanel();
         //// frame.add(buffer);
         frame.setLayout(new GridLayout(2, 2,20,20));
