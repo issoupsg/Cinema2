@@ -4,7 +4,7 @@ import Modele.Bouton;
 import Modele.BoutonAppuie;
 import Modele.BoutonRecherche;
 import Modele.Connexion;
-import Vue.General;
+import Vue.*;
 import Vue.Page;
 
 import javax.swing.*;
@@ -16,8 +16,9 @@ public class Controleur {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
         System.out.println("Hello Cinema!");
-        General General = new General();
-        General.General();
+
+        Generale Generale = new Generale();
+        Generale.Generale();
 
     }
 }

@@ -1,54 +1,66 @@
 package Vue;
 
+import Modele.ListPanel;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class Page extends JFrame {
+    private static final long serialVersionUID = -4939554401128745304L;
     int x;
     int y;
     JPanel panel;
-    JPanel panel2;
+    JPanel buffer2;
     JFrame frame;
-    JPanel buffer;
-    public Page(int x , int y,String titre){
-        this.x=x;
-        this.y=y;
-        frame=new JFrame(titre);
-        panel=new JPanel();
-        panel2=new JPanel();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //// frame.getContentPane().setBackground(Color.BLUE);
-        //// frame.getContentPane().setBackground(Color.BLUE);
+    JPanel buffer,bufferText;
+    ListPanel pan;
+    JList<String>nameList;
+
+    public Page(JList<String> nameList){
+        super("My first Swing application!");
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setSize(900, 450);
+        this.setLocationRelativeTo(null);
+        panel=(JPanel) this.getContentPane();
         buffer=new JPanel();
+        buffer2=new JPanel();
+         nameList = new JList<>();
+         pan = new ListPanel();
+         bufferText=new JPanel();
+
+         pan.setPreferredSize(new Dimension(350, 400));
+
+
+
+
+        ////  panel2=new JPanel();
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //// frame.getContentPane().setBackground(Color.BLUE);
+        ////buffer=new JPanel();
         //// frame.add(buffer);
-        frame.setLayout(new GridLayout(2, 2,20,20));
+
         //// panel.setLayout(new BorderLayout());
         ///// panel2.setLayout(new BorderLayout());
-        buffer.setLayout(new BorderLayout());
+        ////buffer.setLayout(new BorderLayout());
 
 // Créer un panel sans marge interne
         ////panel.setBorder(BorderFactory.createEmptyBorder());
-        panel2.setBorder(BorderFactory.createEmptyBorder());
-        buffer.setBorder(BorderFactory.createEmptyBorder());
-        panel.setPreferredSize(new Dimension(500, 5));
-        panel.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
-        panel2.setLayout(new FlowLayout(FlowLayout.LEFT,0,0));
-        buffer.setLayout(new FlowLayout(FlowLayout.CENTER,0,0));
-        panel2.setPreferredSize(new Dimension(500, 5));
-        buffer.setPreferredSize(new Dimension(500, 200));
-        frame.add(panel,BorderLayout.WEST);
-        frame.add(panel2,BorderLayout.EAST);
-        frame.add(buffer);
+        buffer2.setLayout(new GridLayout(2, 2));
+
+        ////frame.add(buffer2);
+
+
 
 
 
     }
-
+    public JList<String > getList(){return nameList;}
+    public ListPanel getListPanel(){return pan;}
     public JPanel getPanel(){
         return panel;
     }
-    public JFrame getFrame(){
-        return frame;
+    public JPanel getbuffer(){
+        return buffer2;
     }
     public void ajouterbouton(JButton bouton,int x,int y,int largeur,int hauteur){
         ////bouton.setBounds(1920 / 2 - largeur / 2, 80, largeur, hauteur);
@@ -56,31 +68,56 @@ public class Page extends JFrame {
         bouton.setLocation(x,y);
         panel.add(bouton);
     }
-    public void ajouterbarre(JTextField bouton,int x,int y,int largeur,int hauteur){
+    public void ajouterbarre(JTextField bouton, int x, int y, int largeur, int hauteur){
         bouton.setPreferredSize(new Dimension(largeur, hauteur));
         ////bouton.setBounds(x,y,largeur,hauteur);
-        panel2.add(bouton);
+        buffer2.add(bouton);  // Redessine le buffer
     }
+
     public void afficherImageURL(String nomimage,int coordonnex,int coordonney) {
         SwingUtilities.invokeLater(() -> {
             try {
                 ImageIcon image = new ImageIcon(getClass().getResource(nomimage));
-                JLabel label = new JLabel(image);
+                Image image1=image.getImage();
+                panel.revalidate();
+                panel.repaint();
+                Image newimg = image1.getScaledInstance(300,getHeight(),Image.SCALE_SMOOTH);
+                ImageIcon resizedIcon = new ImageIcon(newimg);
+                JLabel label = new JLabel(resizedIcon);
                 buffer.removeAll();
                 // Définir explicitement la position et la taille
-                label.setBounds(coordonnex, coordonney, 40, 40); // Ajuste selon les besoins
+               /* label.setBounds(coordonnex, coordonney, 40, 40); // Ajuste selon les besoins
                 label.setSize(10,10);
-                buffer.setBounds(0,60,40,40);
+                L*/
+                ////buffer.setBounds(0,60,40,40);
+
                 buffer.add(label);
-                panel2.setVisible(true);
-                frame.pack();
-                //// frame.setLocationRelativeTo(null);
+                panel.add(buffer,BorderLayout.EAST);
+                buffer.revalidate();
+                buffer.repaint();
                 buffer.setVisible(true);
+
+
+                //// frame.setLocationRelativeTo(null);
+
             } catch (Exception e) {
                 e.printStackTrace();
-                JOptionPane.showMessageDialog(frame, "Impossible de charger l'image", "Erreur", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(panel, "Impossible de charger l'image", "Erreur", JOptionPane.ERROR_MESSAGE);
             }
         });
     }
+    public void ajouterResume(String resume){
+        SwingUtilities.invokeLater(() -> {
+            JLabel label =new JLabel(resume);
+            label.setPreferredSize(new Dimension(300,50));
+            panel.add(label,BorderLayout.SOUTH);
+            panel.revalidate();
+            panel.repaint();
 
+        });
+    }
+
+    public void calculerPrix(String valeur, int nombreplce) {
+
+    }
 }
