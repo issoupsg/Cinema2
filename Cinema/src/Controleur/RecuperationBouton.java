@@ -36,8 +36,8 @@ public class RecuperationBouton {
                 String valeur;
                 String databaseName = "Cinema"; // Remplacez par le nom de votre base de données
                 String utilisateur = "root"; // Utilisateur par défaut pour MySQL
-                //String motDePasse = "";
-                String motDePasse = "Jack123456";
+                String motDePasse = "";
+                ////String motDePasse = "Jack123456";
                 String valeurBouton = field.getText();
                 System.out.println("La valeur du bouton est : " + valeurBouton);
                 Connexion sql = null; // Passer la connexion à la classe RechercheSql
