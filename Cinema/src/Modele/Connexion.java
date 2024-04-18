@@ -8,8 +8,11 @@ import java.awt.event.MouseEvent;
 public class Connexion {
     private final Connection conn;
     private final Statement stmt;
+    String databaseName="Cinema";
+    String username="root";
+    String password="";
 
-    public Connexion(String databaseName, String username, String password) throws SQLException, ClassNotFoundException {
+    public Connexion() throws SQLException, ClassNotFoundException {
         // Chargement du pilote JDBC moderne
         Class.forName("com.mysql.cj.jdbc.Driver");
 
@@ -34,6 +37,26 @@ public class Connexion {
 
         // Création d'une Statement pour exécuter d'autres requêtes si nécessaire
         stmt = conn.createStatement();
+    }
+    public String getresume(String nom) throws SQLException {
+        String filmName="";
+        String sqlSelect = "SELECT resume FROM film WHERE nom_film = ?";
+        PreparedStatement psSelect = conn.prepareStatement(sqlSelect);
+        psSelect.setString(1, nom); // Lier le paramètre à la valeur 57
+
+        // Exécution de la requête et récupération du résultat
+        ResultSet rs = psSelect.executeQuery();
+        if (rs.next()) {
+            ////System.out.println("cokfd");
+            filmName = rs.getString("resume");
+        }
+
+        // Fermeture des ressources
+        rs.close();
+        psSelect.close();
+
+        return filmName;
+
     }
     public String getFilmName(String nom) throws SQLException {
         String filmName = "";
