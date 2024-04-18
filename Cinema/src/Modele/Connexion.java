@@ -1,6 +1,9 @@
 package Modele;
 
-import java.sql.*;
+import java.sql.*;import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Connexion {
     private final Connection conn;
@@ -54,6 +57,39 @@ public class Connexion {
         return filmName;
     }
 
+    public JList<String> getlistFilms(JList<String> ok) throws SQLException {
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        String sqlSelect = "SELECT nom_film, nbrplace, prix_place FROM film";
+        PreparedStatement psSelect = null;
+        ResultSet rs = null;
+
+        try {
+            // Utilisation d'un PreparedStatement pour éviter les problèmes de sécurité liés aux injections SQL
+            psSelect = conn.prepareStatement(sqlSelect);
+
+            // Exécution de la requête et récupération du résultat
+            rs = psSelect.executeQuery();
+            while (rs.next()) {  // Utiliser while au lieu de if pour traiter tous les enregistrements
+                String filmName = rs.getString("nom_film");
+                int nbPlace = rs.getInt("nbrplace");
+                float prix = rs.getFloat("prix_place");
+                // Format de chaque entrée : "Nom du film - Nombre de places - Prix"
+                String entry = filmName + " - " + nbPlace + " places - " + prix + " €";
+                listModel.addElement(entry);  // Ajout de l'entrée au modèle de liste
+            }
+
+            ok.setModel(listModel);  // Mettre à jour le modèle de la JList
+        } finally {
+            // Assurer la fermeture des ressources dans un bloc finally
+            if (rs != null) rs.close();
+            if (psSelect != null) psSelect.close();
+        }
+
+        return ok;
+    }
+
+
+
 
     // Méthode pour fermer les ressources et éviter les fuites de mémoire
     public void close() throws SQLException {
@@ -63,5 +99,27 @@ public class Connexion {
         if (stmt != null) {
             stmt.close();
         }
+    }
+
+    public int getnbrfilm(String nom, int nombreplce) throws SQLException {
+        int prix = 0;
+        int nbrplace;
+        String sqlSelect = "SELECT nbrplace,prix_place FROM film WHERE nom_film = ?";
+
+        // Utilisation d'un PreparedStatement pour éviter les problèmes de sécurité liés aux injections SQL
+        PreparedStatement psSelect = conn.prepareStatement(sqlSelect);
+        psSelect.setString(1, nom); // Lier le paramètre à la valeur 57
+
+        // Exécution de la requête et récupération du résultat
+        ResultSet rs = psSelect.executeQuery();
+        if (rs.next()) {
+            System.out.println("cokfd");
+            nbrplace = rs.getInt("nbrplace");
+            prix=rs.getInt("prix_place");
+        }
+        return (prix*nombreplce);
+
+
+
     }
 }

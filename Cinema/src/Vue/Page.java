@@ -1,7 +1,6 @@
 package Vue;
 
-import Modele.Bouton;
-import Modele.BoutonAppuie;
+import Modele.ListPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,16 +10,25 @@ public class Page extends JFrame {
     int x;
     int y;
     JPanel panel;
-    JPanel panel2;
+    JPanel buffer2;
     JFrame frame;
     JPanel buffer;
-    public Page(){
+    ListPanel pan;
+    JList<String>nameList;
+
+    public Page(JList<String> nameList){
         super("My first Swing application!");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setSize(600, 400);
+        this.setSize(750, 400);
         this.setLocationRelativeTo(null);
         panel=(JPanel) this.getContentPane();
         buffer=new JPanel();
+        buffer2=new JPanel();
+         nameList = new JList<>();
+         pan = new ListPanel();
+
+         pan.setPreferredSize(new Dimension(350, 400));
+
 
 
 
@@ -36,20 +44,22 @@ public class Page extends JFrame {
 
 // Créer un panel sans marge interne
         ////panel.setBorder(BorderFactory.createEmptyBorder());
-        ////panel.setLayout(new GridLayout(2, 2));
+        buffer2.setLayout(new GridLayout(2, 2));
 
-
+        ////frame.add(buffer2);
 
 
 
 
 
     }
+    public JList<String > getList(){return nameList;}
+    public ListPanel getListPanel(){return pan;}
     public JPanel getPanel(){
         return panel;
     }
-    public JFrame getFrame(){
-        return frame;
+    public JPanel getbuffer(){
+        return buffer2;
     }
     public void ajouterbouton(JButton bouton,int x,int y,int largeur,int hauteur){
         ////bouton.setBounds(1920 / 2 - largeur / 2, 80, largeur, hauteur);
@@ -57,17 +67,20 @@ public class Page extends JFrame {
         bouton.setLocation(x,y);
         panel.add(bouton);
     }
-    public void ajouterbarre(JTextField bouton,int x,int y,int largeur,int hauteur){
+    public void ajouterbarre(JTextField bouton, int x, int y, int largeur, int hauteur){
         bouton.setPreferredSize(new Dimension(largeur, hauteur));
         ////bouton.setBounds(x,y,largeur,hauteur);
-        panel.add(bouton);
+        buffer2.add(bouton);  // Redessine le buffer
     }
+
     public void afficherImageURL(String nomimage,int coordonnex,int coordonney) {
         SwingUtilities.invokeLater(() -> {
             try {
                 ImageIcon image = new ImageIcon(getClass().getResource(nomimage));
                 Image image1=image.getImage();
-                Image newimg = image1.getScaledInstance(300,400,Image.SCALE_SMOOTH);
+                panel.revalidate();
+                panel.repaint();
+                Image newimg = image1.getScaledInstance(300,coordonnex,Image.SCALE_SMOOTH);
                 ImageIcon resizedIcon = new ImageIcon(newimg);
                 JLabel label = new JLabel(resizedIcon);
                 buffer.removeAll();
@@ -93,4 +106,7 @@ public class Page extends JFrame {
         });
     }
 
+    public void calculerPrix(String valeur, int nombreplce) {
+
+    }
 }
