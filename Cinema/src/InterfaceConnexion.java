@@ -22,29 +22,10 @@ public class InterfaceConnexion {
 
         // Création du bouton de connexion
         boutonConnexion = new JButton("Connexion");
-        /*boutonConnexion.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Code à exécuter lorsque le bouton de connexion est cliqué
-                frame.dispose(); // Fermer la fenêtre actuelle
 
-                // Afficher l'interface de saisie utilisateur et mot de passe
-                afficherInterfaceConnexion();
-            }
-        });
-*/
         // Création du bouton d'invité
         boutonInvite = new JButton("Invité");
-     /*   boutonInvite.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                // Code à exécuter lorsque le bouton d'invité est cliqué
-                frame.dispose(); // Fermer la fenêtre actuelle
 
-                // Afficher l'interface de saisie utilisateur et mot de passe
-                //afficherInterfaceConnexion();
-
-            }
-        });
-*/
         // Création du bouton de connexion
         boutonInscription = new JButton("Inscription");
         //ButtonInscription(boutonInscription,frame);
