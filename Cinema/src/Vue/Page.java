@@ -19,7 +19,7 @@ public class Page extends JFrame {
     public Page(JList<String> nameList){
         super("My first Swing application!");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setSize(750, 400);
+        this.setSize(900, 450);
         this.setLocationRelativeTo(null);
         panel=(JPanel) this.getContentPane();
         buffer=new JPanel();

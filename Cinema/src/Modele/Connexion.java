@@ -9,7 +9,8 @@ public class Connexion {
     private final Statement stmt;
     String databaseName="Cinema";
     String username="root";
-    String password="";
+    //String password="";
+    String password="Jack123456";
 
     public Connexion() throws SQLException, ClassNotFoundException {
         // Chargement du pilote JDBC moderne

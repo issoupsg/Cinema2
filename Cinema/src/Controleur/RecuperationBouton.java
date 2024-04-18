@@ -136,7 +136,7 @@ public class RecuperationBouton {
                 Connexion v = null;
                 AfficherInterfaceConnexion a = new AfficherInterfaceConnexion();
                 try {
-                    v = new Connexion("cinema","root","Jack123456");
+                    v = new Connexion();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 } catch (ClassNotFoundException ex) {

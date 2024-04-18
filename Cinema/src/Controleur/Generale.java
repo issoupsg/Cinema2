@@ -121,8 +121,8 @@ public class Generale extends JFrame {
             Acceuil.getbuffer().add(field2,BorderLayout.CENTER);
             Acceuil.getbuffer().add(bouton2, BorderLayout.CENTER);
             Acceuil.getbuffer().add(field,BorderLayout.CENTER);
-            Acceuil.getPanel().add(Acceuil.getbuffer());
             Acceuil.getbuffer().add(bouton1, BorderLayout.CENTER);
+            Acceuil.getPanel().add(Acceuil.getbuffer());
 
             Acceuil.afficherImageURL("/fermer.jpeg",Acceuil.getHeight(),0);
 
@@ -130,7 +130,7 @@ public class Generale extends JFrame {
 
             Acceuil.setVisible(true);
             Acceuil.revalidate();
-            Acceuil.getPanel().setPreferredSize(new Dimension(850,400));
+            Acceuil.getPanel().setPreferredSize(new Dimension(1100,400));
             Acceuil.getPanel().repaint();
             Acceuil.pack();
             Acceuil.repaint();
