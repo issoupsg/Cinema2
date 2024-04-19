@@ -214,7 +214,7 @@ public class Connexion {
                 {
                     return true;
                 }
-               //// System.out.println("Nombre de places disponibles pour le film " + nomFilm + " (" + idFilm + "): " + nbrPlaceDisponible);
+                //// System.out.println("Nombre de places disponibles pour le film " + nomFilm + " (" + idFilm + "): " + nbrPlaceDisponible);
                 // Compare le nombre de places attendu avec le nombre disponible
                 /////return nbrPlaceDisponible == nombrePlceAttendu;
             }
@@ -228,10 +228,10 @@ public class Connexion {
     public int getType(String nom, String mdp) throws SQLException {
 
 
-            // Si la connexion est établie avec succès
+        // Si la connexion est établie avec succès
         String sqlSelect = "SELECT type FROM user WHERE Utilisateur = ? AND mdp = ?";
         // Assure-toi que cette connexion est correctement initialisée
-    int nouv = 0;
+        int nouv = 0;
         try {
             // Utilisation d'un PreparedStatement pour éviter les problèmes de sécurité liés aux injections SQL
             PreparedStatement psSelect = conn.prepareStatement(sqlSelect);
@@ -254,33 +254,33 @@ public class Connexion {
         return nouv;
     }
 
-    public int getID(String nom, String mdp) throws SQLException {
-        String sqlSelect = "SELECT userId FROM user WHERE Utilisateur = ? AND mdp = ?";
-        // Assure-toi que cette connexion est correctement initialisée
-        int nouv = 0;
-        try {
-            // Utilisation d'un PreparedStatement pour éviter les problèmes de sécurité liés aux injections SQL
-            PreparedStatement psSelect = conn.prepareStatement(sqlSelect);
-            psSelect.setString(1, nom);
-            psSelect.setString(2, mdp);
-
-            // Exécution de la requête et récupération du résultat
-            ResultSet rs = psSelect.executeQuery();
-            if (rs.next()) {
-                nouv = rs.getInt("userId");
-
-                //// System.out.println("Nombre de places disponibles pour le film " + nomFilm + " (" + idFilm + "): " + nbrPlaceDisponible);
-                // Compare le nombre de places attendu avec le nombre disponible
-                /////return nbrPlaceDisponible == nombrePlceAttendu;
-            }
-        } catch (SQLException e) {
-            System.out.println("Erreur SQL : " + e.getMessage());
-            throw e; // Propager l'exception après la journalisation
+    public void InscriptionBDD(String nom, String prenom, int age, String password,JFrame frame) throws SQLException, ClassNotFoundException {
+        Generale g = new Generale();
+        conn.setAutoCommit(false);
+        PreparedStatement ps = conn.prepareStatement("INSERT INTO user (Utilisateur,mdp,type) VALUES (?,?,?)");
+        ps.setString(1,nom);
+        ps.setString(2,password);
+        int type;
+        if (age >= 18 && age <= 64) {
+            System.out.println("Le client est régulier.");
+            ps.setInt(3,3);
+            type = 3;
+        } else if (age >= 65) {
+            System.out.println("Le client est senior.");
+            ps.setInt(3,4);
+            type = 4;
+        } else {
+            System.out.println("Le client est un enfant.");
+            ps.setInt(3,2);
+            type = 2;
         }
-        return nouv;
-    }
+        ps.executeUpdate();
 
-    public void InscriptionBDD(String nom, String prenom, int age, String password)throws SQLException{
+        //Validation la transaction
+        conn.commit();
+        System.out.println("Transactions réussies, les utilisateurs ont été ajoutés avec succès à la base de données.");
+        g.LancementJeux(type);
+        frame.dispose();
 
     }
     public boolean verificationInscription(String nom, String prenom, int age, String password, String confirmationPassword){
