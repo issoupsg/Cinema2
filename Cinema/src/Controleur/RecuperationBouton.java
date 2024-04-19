@@ -134,18 +134,30 @@ public class RecuperationBouton {
                 String utilisateur = champUtilisateur.getText();
                 String motDePasse = new String(champMotDePasse.getPassword());
                 Connexion v = null;
+                Generale g = new Generale();
+                int type=0;
                 AfficherInterfaceConnexion a = new AfficherInterfaceConnexion();
                 try {
                     v = new Connexion();
+                    v.verifierDisponibiliteFilm(utilisateur,motDePasse);
+                    if(v.verifierDisponibiliteFilm(utilisateur, motDePasse))
+                    {
+                        System.out.println("yep");
+                        type=v.getType(utilisateur,motDePasse);
+                        g.LancementJeux(type);
+                    }
+                    else{
+                        a.afficherInfosErreur(frame);
+                    }
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 } catch (ClassNotFoundException ex) {
                     throw new RuntimeException(ex);
                 }
-                Generale g = new Generale();
+                ////Generale g = new Generale();
                 // Afficher les informations saisies dans une nouvelle interface
                 System.out.println("BOUTON VALDER APPUUYER");
-                try {
+               /* try {
                     if(v.Verification(utilisateur,motDePasse)){
                         frame.dispose();
                         g.LancementJeux(v.getType(utilisateur,motDePasse));
@@ -158,7 +170,7 @@ public class RecuperationBouton {
                     throw new RuntimeException(ex);
                 } catch (ClassNotFoundException ex) {
                     throw new RuntimeException(ex);
-                }
+                }*/
 
                 // Fermer la fenêtre de connexion
                 frame.dispose();
