@@ -241,4 +241,21 @@ public class Connexion {
         }
         return 0;
     }
+
+    public void InscriptionBDD(String nom, String prenom, int age, String password)throws SQLException{
+
+    }
+    public boolean verificationInscription(String nom, String prenom, int age, String password, String confirmationPassword){
+        /*System.out.println("nom: "+nom);
+        System.out.println("prenom: "+prenom);
+        System.out.println("age: "+age);
+        System.out.println("password: "+password);
+        System.out.println("confirmerPassword: "+confirmationPassword);*/
+        if(nom.isEmpty() || prenom.isEmpty() || password.isEmpty() || confirmationPassword.isEmpty() || !password.equals(confirmationPassword)){
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
 }
