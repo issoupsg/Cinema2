@@ -16,15 +16,7 @@ public class Generale extends JFrame {
     }
 
     public void Generale() throws SQLException, ClassNotFoundException {
-
-        // Création de la fenêtre principale
-        /*frame = new JFrame("ECE CINEMA");
-        frame.setSize(300, 150);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new FlowLayout());
-        //frame.setLayout(new GridLayout(3, 1));
-        frame.setLocationRelativeTo(frame);
-        */
+        
         frame = new JFrame("ECE CINEMA");
         frame.setSize(590,200);
         JPanel panel=new JPanel();
