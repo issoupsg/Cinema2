@@ -1,20 +1,24 @@
 package Controleur;
 
 import Modele.Connexion;
+import Modele.ListPanel;
 import Modele.Personne;
 import Vue.*;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class RecuperationBouton {
     private JButton JB;
-
+    JList liste;
     public RecuperationBouton(JButton bouton) {
         this.JB = bouton;
     }
+    public RecuperationBouton(JList<String> liste) {this.liste=liste;}
 
     public void ajouterListener(Page accueil) {
         JB.addActionListener(new ActionListener() {
@@ -36,8 +40,20 @@ public class RecuperationBouton {
             }
         });
     }
-
-
+public void Jlistener() {
+    liste.addListSelectionListener(new ListSelectionListener() {
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            // S'assurer que l'événement est final (pour éviter les doubles appels)
+            if (!e.getValueIsAdjusting()) {
+                // Récupérer l'élément sélectionné
+                String selectedValue = (String) liste.getSelectedValue();
+                // Afficher l'élément sélectionné
+                System.out.println("Élément sélectionné : " + selectedValue);
+            }
+        }
+    });
+}
 
     public void ajouterListener2(JTextField field, Page Acceuil) {
         JB.addActionListener(new ActionListener() {

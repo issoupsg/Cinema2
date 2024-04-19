@@ -22,6 +22,7 @@ public class BoutonRecherche extends Bouton {
 
     }
 
+
     public JTextField text(){
         JTextField field=new JTextField();
         //// field.setBounds(50,50,900,900);

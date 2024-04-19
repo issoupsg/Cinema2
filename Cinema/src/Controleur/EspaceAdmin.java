@@ -1,5 +1,7 @@
 package Controleur;
 
+import Modele.Bouton;
+import Modele.BoutonAppuie;
 import Modele.ListPanel;
 
 import javax.swing.*;
@@ -14,11 +16,14 @@ public class EspaceAdmin extends JFrame {
     JList<String>nameList;
 
     public EspaceAdmin() {
-        super("ma page");
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setSize(900, 800);
-        this.setLocationRelativeTo(null);
-        this.setVisible(true);
+        ///super("ma page");
+        frame = new JFrame("Espace Admin");
+        this.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.frame.setSize(450, 400);
+        this.frame.setLocationRelativeTo(null);
+        this.frame.setVisible(true);
+        panel=new JPanel();
+        buffer=new JPanel();
 
       /*  panel=(JPanel) this.getContentPane();
         buffer=new JPanel();
@@ -37,17 +42,41 @@ public class EspaceAdmin extends JFrame {
     }
 
     public void afficherInterfaceAdmin() {
+        ListPanel liste=new ListPanel();
+        liste.listeJusteNom();
+        panel.add(liste,BorderLayout.NORTH);
+        RecuperationBouton Jliste=new RecuperationBouton(liste.listeJusteNom());
+
+        Bouton boutonajout = new BoutonAppuie(0,0,50,50,"Ajouter");
+        JButton boutonajout1 = boutonajout.CreaBouton();
+        RecuperationBouton listener2 = new RecuperationBouton(boutonajout1);
+
+        Bouton boutonsupp = new BoutonAppuie(0,0,50,50,"Supprimer");
+        JButton boutonsupp1 = boutonsupp.CreaBouton();
+        RecuperationBouton listenersupp = new RecuperationBouton(boutonsupp1);
+
+        Bouton boutonRetour = new BoutonAppuie(0,0,50,50,"Retour");
+        JButton boutonRetour1 = boutonRetour.CreaBouton();
+        RecuperationBouton listener = new RecuperationBouton(boutonRetour1);
+        listener.ButtonRetour(boutonRetour1,frame);
+        buffer.add(boutonRetour1);
+        buffer.add(boutonsupp1);
+        buffer.add(boutonajout1);
+        buffer.setVisible(true);
+        frame.add(buffer,BorderLayout.CENTER);
+        frame.add(panel,BorderLayout.NORTH);
+
+
+
     }
        /*JFrame frameConnexion = new JFrame("Admin");
         frameConnexion.setSize(450, 300);
         frameConnexion.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frameConnexion.setLayout(new GridLayout(4, 1));
-
+*/
         // Positionner la nouvelle fenêtre par rapport à la fenêtre principale
-        frameConnexion.setLocationRelativeTo(frame);
-        ListPanel liste=new ListPanel();
-        liste.getList();
-        frameConnexion.add(liste);*/
+       /// panel.setLocationRelativeTo(frame);
+
 
        /* JTextField champUtilisateur = new JTextField();
         frameConnexion.add(new JLabel("Nom Film"));
@@ -58,11 +87,12 @@ public class EspaceAdmin extends JFrame {
         frameConnexion.add(Nbrplace);
         ///frameConnexion.add(champMotDePasse);
         ///frameConnexion.add(boutonValider1);
+*/
 
-        /*Bouton boutonRetour = new BoutonAppuie(0,0,50,50,"Retour");
-        JButton boutonRetour1 = boutonRetour.CreaBouton();
-        RecuperationBouton listener2 = new RecuperationBouton(boutonRetour1); // Création de l'écouteur avec le bouton
-        listener2.ButtonRetour(boutonRetour1,frameConnexion);*/
+
+
+        // Création de l'écouteur avec le bouton
+        ////listener2.ButtonRetour(boutonRetour1,frameConnexion);
 
         // Ajouter le bouton de retour à la fenêtre des informations utilisateur
         ///frameConnexion.add(boutonRetour1);
