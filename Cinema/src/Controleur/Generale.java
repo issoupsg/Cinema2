@@ -30,6 +30,11 @@ public class Generale extends JFrame {
         panel.setBackground(new Color(173, 216, 230));
         frame.add(panel);
 
+        JLabel label1=new JLabel("BIEVENUE A L' ECE CINEMA");
+        label1.setBounds(135,10,300,40);
+        label1.setFont(new Font("Arial",Font.BOLD,22));
+        label1.setForeground(new Color(64, 64, 64));
+        panel.add(label1);
 
         Bouton connexion = new BoutonAppuie(0,0,0,0,"Connexion");
         JButton connexion1 = connexion.CreaBouton();
