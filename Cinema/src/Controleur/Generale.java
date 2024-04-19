@@ -122,12 +122,12 @@ public class Generale extends JFrame {
             Acceuil.getPanel().add(Acceuil.getbuffer());
 
             Acceuil.afficherImageURL("/fermer.jpeg",Acceuil.getHeight(),0);
-
+            Acceuil.ajouterResume("RESUME ICI");
 
 
             Acceuil.setVisible(true);
             Acceuil.revalidate();
-            Acceuil.getPanel().setPreferredSize(new Dimension(1100,400));
+            Acceuil.getPanel().setPreferredSize(new Dimension(1100,600));
             Acceuil.getPanel().repaint();
             Acceuil.pack();
             Acceuil.repaint();

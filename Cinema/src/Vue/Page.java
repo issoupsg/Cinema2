@@ -19,7 +19,7 @@ public class Page extends JFrame {
     public Page(JList<String> nameList){
         super("My first Swing application!");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setSize(900, 450);
+        this.setSize(900, 800);
         this.setLocationRelativeTo(null);
         panel=(JPanel) this.getContentPane();
         buffer=new JPanel();
@@ -28,6 +28,7 @@ public class Page extends JFrame {
          pan = new ListPanel();
          bufferText=new JPanel();
 
+        bufferText.setPreferredSize(new Dimension(350, 100));
          pan.setPreferredSize(new Dimension(350, 400));
 
 
@@ -106,16 +107,32 @@ public class Page extends JFrame {
             }
         });
     }
-    public void ajouterResume(String resume){
+    public void ajouterResume(String resume) {
         SwingUtilities.invokeLater(() -> {
-            JLabel label =new JLabel(resume);
-            label.setPreferredSize(new Dimension(300,50));
-            panel.add(label,BorderLayout.SOUTH);
+            JTextArea textArea = new JTextArea(resume);
+            textArea.setLineWrap(true); // Active le retour à la ligne
+            textArea.setWrapStyleWord(true); // Le retour à la ligne se fait entre les mots
+            textArea.setEditable(false); // Rend le JTextArea non éditable
+            textArea.setPreferredSize(new Dimension(1000, 80)); // Définit la taille préférée
+
+            // Crée un JScrollPane pour gérer le défilement
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            scrollPane.setPreferredSize(new Dimension(1000, 80)); // Définit la taille préférée du JScrollPane
+            scrollPane.setBorder(null); // Enlève la bordure pour garder l'apparence simple si désiré
+
+            // Ajoute une bordure invisible pour créer une marge
+            // Les valeurs dans EmptyBorder sont (top, left, bottom, right)
+            scrollPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0)); // Ajoute une marge de 10 pixels au bas
+
+            bufferText.removeAll();
+            bufferText.add(scrollPane, BorderLayout.SOUTH); // Ajoute le JScrollPane au panel
+            panel.add(bufferText, BorderLayout.SOUTH);
             panel.revalidate();
             panel.repaint();
-
         });
     }
+
+
 
     public void calculerPrix(String valeur, int nombreplce) {
 

@@ -60,6 +60,10 @@ public class RecuperationBouton {
                     sql = new Connexion();
                     valeur=sql.getFilmName(valeurBouton);
                     System.out.println("yey "+valeur);
+                    if(valeur=="")
+                    {
+                        valeur="/fermer.jpeg";
+                    }
                     Acceuil.afficherImageURL(valeur,200,200);
                     resume= sql.getresume(valeurBouton);
                     Acceuil.ajouterResume(resume);
@@ -216,19 +220,34 @@ public class RecuperationBouton {
                 String getText = field2.getText();
                 int nombrePlce;
                 int prix;
-
+                System.out.println("valeur bouton "+ valeurBouton);
                 // Validation du nombre de places
                 try {
                     nombrePlce = Integer.parseInt(getText);
                     if (nombrePlce < 0) {
                         JOptionPane.showMessageDialog(null, "Le nombre de places ne peut pas être négatif.", "Erreur de validation", JOptionPane.ERROR_MESSAGE);
-                        throw new IllegalArgumentException("Le nombre de places ne peut pas être négatif.");
+
                     }
 
                      // Mot de passe
 
                     try {Connexion sql = new Connexion();
+                        System.out.println(nombrePlce);
+                        System.out.println(sql.getnbrplace(valeurBouton));
+                        if(nombrePlce > sql.getnbrplace(valeurBouton))
+                        {
+                            JOptionPane.showMessageDialog(null, "Pas assez de place ou pas bon titre", "Erreur de validation", JOptionPane.ERROR_MESSAGE);
+
+                        }
                         prix = sql.getnbrfilm(valeurBouton,nombrePlce);
+                        String valeur=sql.getFilmName(valeurBouton);
+                        if(valeur=="")
+                        {
+                            valeur="/fermer.jpeg";
+                        }
+                        Acceuil.afficherImageURL(valeur,0,0);
+                        String resume= sql.getresume(valeurBouton);
+                        Acceuil.ajouterResume(resume);
                         System.out.println("Nom du film récupéré : " + prix);
                         // Vous pouvez effectuer d'autres actions ici, comme mettre à jour l'interface utilisateur avec le nom du film
                     } catch (SQLException ex) {

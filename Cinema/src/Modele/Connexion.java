@@ -9,6 +9,7 @@ import javax.swing.*;
 public class Connexion {
     private final Connection conn;
     private final Statement stmt;
+    public int getnbrplace;
     String databaseName="Cinema";
     String username="root";
     String password="";
@@ -59,6 +60,23 @@ public class Connexion {
 
         return filmName;
 
+    }
+    public int getnbrplace(String nom) throws SQLException 
+    {
+        int nbrplace = 0;
+        String sqlSelect = "SELECT nbrplace FROM film WHERE nom_film = ?";
+        PreparedStatement psSelect = conn.prepareStatement(sqlSelect);
+        psSelect.setString(1, nom);
+        ResultSet rs = psSelect.executeQuery();
+        if (rs.next()) {
+            nbrplace = rs.getInt("nbrplace");
+        }
+
+        // Fermeture des ressources
+        rs.close();
+        psSelect.close();
+
+        return nbrplace;
     }
     public String getFilmName(String nom) throws SQLException {
         String filmName = "";
