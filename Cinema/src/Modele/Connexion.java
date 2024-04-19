@@ -13,7 +13,11 @@ public class Connexion {
     String databaseName="Cinema";
     String username="root";
     String password="";
+
    //// String password="Jack123456";
+
+    //String password="Jack123456";
+
 
     public Connexion() throws SQLException, ClassNotFoundException {
         // Chargement du pilote JDBC moderne
