@@ -1,10 +1,13 @@
 package Controleur;
 
 import Modele.Connexion;
+import Modele.ListPanel;
 import Modele.Personne;
 import Vue.*;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -12,10 +15,10 @@ import java.sql.SQLException;
 public class RecuperationBouton {
     private JButton JB;
     private JList liste;
-    public RecuperationBouton(JList<String> liste){this.liste=liste;}
     public RecuperationBouton(JButton bouton) {
         this.JB = bouton;
     }
+    public RecuperationBouton(JList<String> liste) {this.liste=liste;}
 
     public void ajouterListener(Page accueil) {
         JB.addActionListener(new ActionListener() {
@@ -37,8 +40,20 @@ public class RecuperationBouton {
             }
         });
     }
-
-
+public void Jlistener() {
+    liste.addListSelectionListener(new ListSelectionListener() {
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            // S'assurer que l'événement est final (pour éviter les doubles appels)
+            if (!e.getValueIsAdjusting()) {
+                // Récupérer l'élément sélectionné
+                String selectedValue = (String) liste.getSelectedValue();
+                // Afficher l'élément sélectionné
+                System.out.println("Élément sélectionné : " + selectedValue);
+            }
+        }
+    });
+}
 
     public void ajouterListener2(JTextField field, Page Acceuil) {
         JB.addActionListener(new ActionListener() {
@@ -95,15 +110,6 @@ public class RecuperationBouton {
             }
         });
     }
-   /* public void ButtonAge(JComboBox comboBoxAge){
-        comboBoxAge.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                JComboBox<?> comboBox = (JComboBox<?>) e.getSource();
-                Integer age = (Integer) comboBox.getSelectedItem();
-                System.out.println("L'utilisateur a sélectionné l'âge : " + age);
-            }
-        });
-    }*/
     public void ButtonInvite(JButton boutonInvite, JFrame frame){
         boutonInvite.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -118,32 +124,6 @@ public class RecuperationBouton {
                 Generale g = new Generale();
                 try {
                     g.LancementJeux(personne);
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                } catch (ClassNotFoundException ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-        });
-    }
-    public void ButtonEnregistrer(JButton boutonEnregistrer,JTextField nom, JTextField prenom,JComboBox comboBoxAge,JTextField password, JTextField confirmationPassword,JFrame frame){
-        boutonEnregistrer.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Integer selectedOption = (Integer) comboBoxAge.getSelectedItem();
-                String nomUtilisateur = nom.getText();
-                String prenomUtilisateur = prenom.getText();
-                int age = selectedOption;
-                String mdp = password.getText();
-                String confirmMDP = confirmationPassword.getText();
-
-                try {
-                    Connexion v = new Connexion();
-                    if(v.verificationInscription(nomUtilisateur,prenomUtilisateur,age,mdp,confirmMDP)){
-                        v.InscriptionBDD(nomUtilisateur,prenomUtilisateur,age,mdp,frame);
-                    }
-                    else{
-                        JOptionPane.showMessageDialog(null, "Veuillez remplir tous les champs de l'inscription,\n Le mot de passe doit être identique à la confirmation.", "Erreur d'inscription", JOptionPane.ERROR_MESSAGE);
-                    }
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 } catch (ClassNotFoundException ex) {

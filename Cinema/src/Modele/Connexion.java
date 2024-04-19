@@ -15,7 +15,7 @@ public class Connexion {
     String username="root";
     //String password="";
 
-   //// String password="Jack123456";
+    String password="Jack123456";
 
     String password="Jack123456";
 
@@ -165,6 +165,30 @@ public class Connexion {
         return ok;
     }
 
+        try {
+            // Utilisation d'un PreparedStatement pour éviter les problèmes de sécurité liés aux injections SQL
+            psSelect = conn.prepareStatement(sqlSelect);
+
+            // Exécution de la requête et récupération du résultat
+            rs = psSelect.executeQuery();
+            while (rs.next()) {  // Utiliser while au lieu de if pour traiter tous les enregistrements
+                String filmName = rs.getString("nom_film");
+
+                // Format de chaque entrée : "Nom du film - Nombre de places - Prix"
+                String entry = filmName;
+                listModel.addElement(entry);  // Ajout de l'entrée au modèle de liste
+            }
+
+            ok.setModel(listModel);  // Mettre à jour le modèle de la JList
+        } finally {
+            // Assurer la fermeture des ressources dans un bloc finally
+            if (rs != null) rs.close();
+            if (psSelect != null) psSelect.close();
+        }
+
+        return ok;
+    }
+
     // Méthode pour fermer les ressources et éviter les fuites de mémoire
     public void close() throws SQLException {
         if (conn != null) {
@@ -214,7 +238,7 @@ public class Connexion {
                 {
                     return true;
                 }
-                //// System.out.println("Nombre de places disponibles pour le film " + nomFilm + " (" + idFilm + "): " + nbrPlaceDisponible);
+               //// System.out.println("Nombre de places disponibles pour le film " + nomFilm + " (" + idFilm + "): " + nbrPlaceDisponible);
                 // Compare le nombre de places attendu avec le nombre disponible
                 /////return nbrPlaceDisponible == nombrePlceAttendu;
             }

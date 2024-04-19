@@ -30,11 +30,6 @@ public class Generale extends JFrame {
         panel.setBackground(new Color(173, 216, 230));
         frame.add(panel);
 
-        JLabel label1=new JLabel("BIEVENUE A L' ECE CINEMA");
-        label1.setBounds(135,10,300,40);
-        label1.setFont(new Font("Arial",Font.BOLD,22));
-        label1.setForeground(new Color(64, 64, 64));
-        panel.add(label1);
 
         Bouton connexion = new BoutonAppuie(0,0,0,0,"Connexion");
         JButton connexion1 = connexion.CreaBouton();
@@ -74,22 +69,22 @@ public class Generale extends JFrame {
 
 
         // Création du bouton d'invité
-        //Bouton invite = new BoutonAppuie(0,0,50,50,"Invité");
-        //JButton invite1 = invite.CreaBouton();
-        //RecuperationBouton listener2 = new RecuperationBouton(invite1); // Création de l'écouteur avec le bouton
-        //listener2.ButtonInvite(invite1,frame);
+        /*Bouton invite = new BoutonAppuie(0,0,50,50,"Invité");
+        JButton invite1 = invite.CreaBouton();
+        RecuperationBouton listener2 = new RecuperationBouton(invite1); // Création de l'écouteur avec le bouton
+        listener2.ButtonInvite(invite1,frame);
 
 
         // Création du bouton de connexion
-        //Bouton inscription = new BoutonAppuie(0,0,50,50,"Inscription");
-        //JButton inscription1 = inscription.CreaBouton();
-        //RecuperationBouton listener3 = new RecuperationBouton(inscription1); // Création de l'écouteur avec le bouton
-        //listener3.ButtonInscription(inscription1,frame);
+        Bouton inscription = new BoutonAppuie(0,0,50,50,"Inscription");
+        JButton inscription1 = inscription.CreaBouton();
+        RecuperationBouton listener3 = new RecuperationBouton(inscription1); // Création de l'écouteur avec le bouton
+        listener3.ButtonInscription(inscription1,frame);
 
         // Ajout des boutons à la fenêtre principale
-        //frame.add(connexion1);
-        //frame.add(invite1);
-        //frame.add(inscription1);
+        frame.add(connexion1);
+        frame.add(invite1);
+        frame.add(inscription1);*/
 
         // Rendre la fenêtre principale visible
         frame.setVisible(true);

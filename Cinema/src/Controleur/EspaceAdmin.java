@@ -91,6 +91,14 @@ public class EspaceAdmin extends JFrame {
 
 
 
+        // Création de l'écouteur avec le bouton
+        ////listener2.ButtonRetour(boutonRetour1,frameConnexion);
+
+        // Ajouter le bouton de retour à la fenêtre des informations utilisateur
+        ///frameConnexion.add(boutonRetour1);
+
+
+
     // Création de l'écouteur avec le bouton
     ////listener2.ButtonRetour(boutonRetour1,frameConnexion);
 
