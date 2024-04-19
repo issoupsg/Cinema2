@@ -16,7 +16,6 @@ public class Controleur {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
 
         System.out.println("Hello Cinema!");
-
         Generale Generale = new Generale();
         Generale.Generale();
 
