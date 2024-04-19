@@ -2,7 +2,9 @@ package Modele;
 
 import Controleur.Generale;
 
-import java.sql.*;import javax.swing.*;
+import java.sql.*;
+import java.util.Objects;
+import javax.swing.*;
 
 public class Connexion {
     private final Connection conn;
@@ -143,106 +145,91 @@ public class Connexion {
 
     }
 
-    public boolean Verification(String utilisateur, String motDePasse) throws SQLException {
-        // Connexion à la base de données (à adapter selon votre configuration)
-        String URL_BDD = "jdbc:mysql://localhost:3306/cinema";
-        String UTILISATEUR_BDD = "root";
-        String MOT_DE_PASSE_BDD = "Jack123456";
-        Connection connexion = null;
-        Generale g = new Generale();
+    public boolean verifierDisponibiliteFilm(String nom, String mdp) throws SQLException {
+        String sqlSelect = "SELECT Utilisateur FROM user WHERE Utilisateur = ? AND mdp = ?";
+        // Assure-toi que cette connexion est correctement initialisée
 
         try {
-            // Chargement du driver JDBC
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            // Etablissement de la connexion
-            connexion = DriverManager.getConnection(URL_BDD, UTILISATEUR_BDD, MOT_DE_PASSE_BDD);
+            // Utilisation d'un PreparedStatement pour éviter les problèmes de sécurité liés aux injections SQL
+            PreparedStatement psSelect = conn.prepareStatement(sqlSelect);
+            psSelect.setString(1, nom);
+            psSelect.setString(2, mdp);
 
-            // Si la connexion est établie avec succès
-            if (connexion != null) {
-
-                System.out.println("Connexion établie avec la base de données !");
-                PreparedStatement ps1 = connexion.prepareStatement("SELECT * FROM user");
-                ResultSet rs = ps1.executeQuery();
-                while (rs.next()) {
-                    System.out.println(rs.getString("Utilisateur") + "\t" + rs.getString("mdp") + "\t" + rs.getInt("type"));
-                    if (rs.getString("Utilisateur").equals(utilisateur) && rs.getString("mdp").equals(motDePasse)) {
-                        g.type = rs.getInt("type");
-                        return true;
-                    }
+            // Exécution de la requête et récupération du résultat
+            ResultSet rs = psSelect.executeQuery();
+            if (rs.next()) {
+                String nouv = rs.getString("Utilisateur");
+                if(Objects.equals(nouv, nom))
+                {
+                    return true;
                 }
-                System.out.println("Type de membre: " + g.type);
-                // Vous pouvez maintenant effectuer des opérations sur la base de données
-            } else {
-                System.out.println("Echec de la connexion à la base de données !");
+                //// System.out.println("Nombre de places disponibles pour le film " + nomFilm + " (" + idFilm + "): " + nbrPlaceDisponible);
+                // Compare le nombre de places attendu avec le nombre disponible
+                /////return nbrPlaceDisponible == nombrePlceAttendu;
             }
-
-            // TOUT LES EXCEPTIONS
         } catch (SQLException e) {
-            System.out.println("Erreur de connexion : " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            System.out.println("Driver JDBC non trouvé : " + e.getMessage());
-        } finally {
-            // Fermeture de la connexion
-            try {
-                if (connexion != null) {
-                    connexion.close();
-                }
-            } catch (SQLException e) {
-                System.out.println("Erreur lors de la fermeture de la connexion : " + e.getMessage());
-            }
+            System.out.println("Erreur SQL : " + e.getMessage());
+            throw e; // Propager l'exception après la journalisation
         }
-        return false;
+        return false; // Retourner false si aucun enregistrement n'est trouvé
     }
 
-    public int getType(String utilisateur, String motDePasse) throws SQLException {
-        String URL_BDD = "jdbc:mysql://localhost:3306/cinema";
-        String UTILISATEUR_BDD = "root";
-        String MOT_DE_PASSE_BDD = "Jack123456";
-        Connection connexion = null;
-        Generale g = new Generale();
+    public int getType(String nom, String mdp) throws SQLException {
 
+
+        // Si la connexion est établie avec succès
+        String sqlSelect = "SELECT type FROM user WHERE Utilisateur = ? AND mdp = ?";
+        // Assure-toi que cette connexion est correctement initialisée
+        int nouv = 0;
         try {
-            // Chargement du driver JDBC
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            // Etablissement de la connexion
-            connexion = DriverManager.getConnection(URL_BDD, UTILISATEUR_BDD, MOT_DE_PASSE_BDD);
+            // Utilisation d'un PreparedStatement pour éviter les problèmes de sécurité liés aux injections SQL
+            PreparedStatement psSelect = conn.prepareStatement(sqlSelect);
+            psSelect.setString(1, nom);
+            psSelect.setString(2, mdp);
 
-            // Si la connexion est établie avec succès
-            if (connexion != null) {
+            // Exécution de la requête et récupération du résultat
+            ResultSet rs = psSelect.executeQuery();
+            if (rs.next()) {
+                nouv = rs.getInt("type");
 
-                System.out.println("Connexion établie avec la base de données !");
-                PreparedStatement ps1 = connexion.prepareStatement("SELECT * FROM user");
-                ResultSet rs = ps1.executeQuery();
-                while (rs.next()) {
-                    System.out.println(rs.getString("Utilisateur") + "\t" + rs.getString("mdp") + "\t" + rs.getInt("type"));
-                    if (rs.getString("Utilisateur").equals(utilisateur) && rs.getString("mdp").equals(motDePasse)) {
-                        g.type = rs.getInt("type");
-                        return g.type;
-                    }
-                }
-                System.out.println("Type de membre: " + g.type);
-                // Vous pouvez maintenant effectuer des opérations sur la base de données
-            } else {
-                System.out.println("Echec de la connexion à la base de données !");
+                //// System.out.println("Nombre de places disponibles pour le film " + nomFilm + " (" + idFilm + "): " + nbrPlaceDisponible);
+                // Compare le nombre de places attendu avec le nombre disponible
+                /////return nbrPlaceDisponible == nombrePlceAttendu;
             }
         } catch (SQLException e) {
-            System.out.println("Erreur de connexion : " + e.getMessage());
-        } catch (ClassNotFoundException e) {
-            System.out.println("Driver JDBC non trouvé : " + e.getMessage());
-        } finally {
-            // Fermeture de la connexion
-            try {
-                if (connexion != null) {
-                    connexion.close();
-                }
-            } catch (SQLException e) {
-                System.out.println("Erreur lors de la fermeture de la connexion : " + e.getMessage());
-            }
+            System.out.println("Erreur SQL : " + e.getMessage());
+            throw e; // Propager l'exception après la journalisation
         }
-        return 0;
+        return nouv;
     }
 
-    public void InscriptionBDD(String nom, String prenom, int age, String password)throws SQLException{
+    public void InscriptionBDD(String nom, String prenom, int age, String password,JFrame frame) throws SQLException, ClassNotFoundException {
+        Generale g = new Generale();
+        conn.setAutoCommit(false);
+        PreparedStatement ps = conn.prepareStatement("INSERT INTO user (Utilisateur,mdp,type) VALUES (?,?,?)");
+        ps.setString(1,nom);
+        ps.setString(2,password);
+        int type;
+        if (age >= 18 && age <= 64) {
+            System.out.println("Le client est régulier.");
+            ps.setInt(3,3);
+            type = 3;
+        } else if (age >= 65) {
+            System.out.println("Le client est senior.");
+            ps.setInt(3,4);
+            type = 4;
+        } else {
+            System.out.println("Le client est un enfant.");
+            ps.setInt(3,2);
+            type = 2;
+        }
+        ps.executeUpdate();
+
+        //Validation la transaction
+        conn.commit();
+        System.out.println("Transactions réussies, les utilisateurs ont été ajoutés avec succès à la base de données.");
+        g.LancementJeux(type);
+        frame.dispose();
 
     }
     public boolean verificationInscription(String nom, String prenom, int age, String password, String confirmationPassword){
