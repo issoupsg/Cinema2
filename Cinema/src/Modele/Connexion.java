@@ -134,6 +134,35 @@ public class Connexion {
 
         return ok;
     }
+    public JList<String> getlistFilmsuniquement(JList<String> ok) throws SQLException {
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        String sqlSelect = "SELECT nom_film FROM film";
+        PreparedStatement psSelect = null;
+        ResultSet rs = null;
+
+        try {
+            // Utilisation d'un PreparedStatement pour éviter les problèmes de sécurité liés aux injections SQL
+            psSelect = conn.prepareStatement(sqlSelect);
+
+            // Exécution de la requête et récupération du résultat
+            rs = psSelect.executeQuery();
+            while (rs.next()) {  // Utiliser while au lieu de if pour traiter tous les enregistrements
+                String filmName = rs.getString("nom_film");
+
+                // Format de chaque entrée : "Nom du film - Nombre de places - Prix"
+                String entry = filmName;
+                listModel.addElement(entry);  // Ajout de l'entrée au modèle de liste
+            }
+
+            ok.setModel(listModel);  // Mettre à jour le modèle de la JList
+        } finally {
+            // Assurer la fermeture des ressources dans un bloc finally
+            if (rs != null) rs.close();
+            if (psSelect != null) psSelect.close();
+        }
+
+        return ok;
+    }
 
 
     // Méthode pour fermer les ressources et éviter les fuites de mémoire
