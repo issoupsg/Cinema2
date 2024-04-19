@@ -224,4 +224,30 @@ public class Connexion {
         }
         return nouv;
     }
+
+    public int getID(String nom, String mdp) throws SQLException {
+        String sqlSelect = "SELECT userId FROM user WHERE Utilisateur = ? AND mdp = ?";
+        // Assure-toi que cette connexion est correctement initialisée
+        int nouv = 0;
+        try {
+            // Utilisation d'un PreparedStatement pour éviter les problèmes de sécurité liés aux injections SQL
+            PreparedStatement psSelect = conn.prepareStatement(sqlSelect);
+            psSelect.setString(1, nom);
+            psSelect.setString(2, mdp);
+
+            // Exécution de la requête et récupération du résultat
+            ResultSet rs = psSelect.executeQuery();
+            if (rs.next()) {
+                nouv = rs.getInt("userId");
+
+                //// System.out.println("Nombre de places disponibles pour le film " + nomFilm + " (" + idFilm + "): " + nbrPlaceDisponible);
+                // Compare le nombre de places attendu avec le nombre disponible
+                /////return nbrPlaceDisponible == nombrePlceAttendu;
+            }
+        } catch (SQLException e) {
+            System.out.println("Erreur SQL : " + e.getMessage());
+            throw e; // Propager l'exception après la journalisation
+        }
+        return nouv;
+    }
 }

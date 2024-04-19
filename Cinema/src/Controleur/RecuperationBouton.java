@@ -1,16 +1,12 @@
 package Controleur;
 
 import Modele.Connexion;
-import Modele.RechercheSql;
+import Modele.Personne;
 import Vue.*;
 
-import Vue.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.Connection;
 import java.sql.SQLException;
 
 public class RecuperationBouton {
@@ -85,7 +81,7 @@ public class RecuperationBouton {
             }
         });
     }
-    public void ButtonConnexion(JButton boutonConnexion, JFrame frame){
+    public void ButtonConnexion(Personne personne,JButton boutonConnexion, JFrame frame){
         boutonConnexion.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Code à exécuter lorsque le bouton de connexion est cliqué
@@ -107,10 +103,11 @@ public class RecuperationBouton {
                 String motDePasse = "Jack123456"; // mdp pour jack
                 Connexion connexionBDD = null; */
                 frame.dispose(); // Fermer la fenêtre actuelle
+                Personne personne = new Personne(0, "invite", 0);
 
                 Generale g = new Generale();
                 try {
-                    g.LancementJeux(0);
+                    g.LancementJeux(personne);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 } catch (ClassNotFoundException ex) {
@@ -124,17 +121,19 @@ public class RecuperationBouton {
             public void actionPerformed(ActionEvent e) {
                 // Code à exécuter lorsque le bouton de connexion est cliqué
                 frame.dispose(); // Fermer la fenêtre actuelle
-
+                Inscription inscrit=new Inscription();
+                inscrit.afficherInterfaceInscription(frame);
                 // Afficher l'interface de saisie utilisateur et mot de passe
 
                 // CODE D'INSCRIPTION ICI
             }
         });
     }
-    public void ButtonValider(JButton boutonValider,JTextField champUtilisateur, JPasswordField champMotDePasse, JFrame frame){
+    public void ButtonValider(JButton boutonValider, JTextField champUtilisateur, JPasswordField champMotDePasse, JFrame frame){
         boutonValider.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Récupérer les valeurs saisies par l'utilisateur
+                Personne personne;
                 String utilisateur = champUtilisateur.getText();
                 String motDePasse = new String(champMotDePasse.getPassword());
                 Connexion v = null;
@@ -148,7 +147,18 @@ public class RecuperationBouton {
                     {
                         System.out.println("yep");
                         type=v.getType(utilisateur,motDePasse);
-                        g.LancementJeux(type);
+                        int id=v.getID(utilisateur,motDePasse);
+                        personne=new Personne(type,utilisateur,id);
+                        if(type==1)
+                        {
+                          EspaceAdmin espace= new EspaceAdmin();
+                          espace.afficherInterfaceAdmin();
+                        }
+                        else{
+                            g.LancementJeux(personne);
+                        }
+                        ///code qui associe les id a la personne
+
                     }
                     else{
                         a.afficherInfosErreur(frame);
@@ -197,7 +207,7 @@ public class RecuperationBouton {
             }
         });
     }
-    public void ButtonRetour1(JButton boutonRetour,JFrame frame){
+    public void ButtonRetour1(JButton boutonRetour, JFrame frame){
         boutonRetour.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 AfficherInterfaceConnexion a = new AfficherInterfaceConnexion();

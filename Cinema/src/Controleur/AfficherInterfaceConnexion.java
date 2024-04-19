@@ -1,6 +1,5 @@
-package Vue;
+package Controleur;
 
-import Controleur.RecuperationBouton;
 import Modele.Bouton;
 import Modele.BoutonAppuie;
 

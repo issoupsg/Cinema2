@@ -11,8 +11,12 @@ import java.sql.*;
 public class Generale extends JFrame {
     public JFrame frame;
     public int type;
+    Personne personne;
 
     public Generale(){
+    }
+    public Generale(Personne personne){
+        this.personne= personne;
     }
 
     public void Generale() throws SQLException, ClassNotFoundException {
@@ -33,7 +37,7 @@ public class Generale extends JFrame {
         Bouton connexion = new BoutonAppuie(0,0,50,50,"Connexion");
         JButton connexion1 = connexion.CreaBouton();
         RecuperationBouton listener1 = new RecuperationBouton(connexion1); // Création de l'écouteur avec le bouton
-        listener1.ButtonConnexion(connexion1,frame);
+        listener1.ButtonConnexion(personne,connexion1,frame);
 
 
         // Création du bouton d'invité
@@ -57,10 +61,11 @@ public class Generale extends JFrame {
         // Rendre la fenêtre principale visible
         frame.setVisible(true);
     }
-    public void LancementJeux(int type) throws SQLException, ClassNotFoundException {
+    public void LancementJeux(Personne personne) throws SQLException, ClassNotFoundException {
         String nomfilm;
         Page Acceuil;
         Connexion conn=null;
+        System.out.println(personne.getNom());
 
         System.out.println("Hello Palkis!");
         System.out.println("ECE PARIS TYPE: "+type);
