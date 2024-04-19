@@ -1,5 +1,6 @@
 package Modele;
 
+import Controleur.AfficherInterfaceConnexion;
 import Controleur.Generale;
 
 import java.sql.*;
@@ -12,11 +13,11 @@ public class Connexion {
     public int getnbrplace;
     String databaseName="Cinema";
     String username="root";
-    String password="";
+    //String password="";
 
    //// String password="Jack123456";
 
-    //String password="Jack123456";
+    String password="Jack123456";
 
 
     public Connexion() throws SQLException, ClassNotFoundException {
@@ -134,7 +135,35 @@ public class Connexion {
 
         return ok;
     }
+    public JList<String> getlistFilmsuniquement(JList<String> ok) throws SQLException {
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        String sqlSelect = "SELECT nom_film FROM film";
+        PreparedStatement psSelect = null;
+        ResultSet rs = null;
 
+        try {
+            // Utilisation d'un PreparedStatement pour éviter les problèmes de sécurité liés aux injections SQL
+            psSelect = conn.prepareStatement(sqlSelect);
+
+            // Exécution de la requête et récupération du résultat
+            rs = psSelect.executeQuery();
+            while (rs.next()) {  // Utiliser while au lieu de if pour traiter tous les enregistrements
+                String filmName = rs.getString("nom_film");
+
+                // Format de chaque entrée : "Nom du film - Nombre de places - Prix"
+                String entry = filmName;
+                listModel.addElement(entry);  // Ajout de l'entrée au modèle de liste
+            }
+
+            ok.setModel(listModel);  // Mettre à jour le modèle de la JList
+        } finally {
+            // Assurer la fermeture des ressources dans un bloc finally
+            if (rs != null) rs.close();
+            if (psSelect != null) psSelect.close();
+        }
+
+        return ok;
+    }
 
     // Méthode pour fermer les ressources et éviter les fuites de mémoire
     public void close() throws SQLException {
@@ -250,9 +279,6 @@ public class Connexion {
         }
         return nouv;
         }
-        return nouv;
-    }
-
     public void InscriptionBDD(String nom, String prenom, int age, String password,JFrame frame) throws SQLException, ClassNotFoundException {
         Generale g = new Generale();
         conn.setAutoCommit(false);
@@ -278,9 +304,9 @@ public class Connexion {
         //Validation la transaction
         conn.commit();
         System.out.println("Transactions réussies, les utilisateurs ont été ajoutés avec succès à la base de données.");
-        g.LancementJeux(type);
+        AfficherInterfaceConnexion a = new AfficherInterfaceConnexion();
+        a.afficherInterfaceConnexion(frame);
         frame.dispose();
-
     }
     public boolean verificationInscription(String nom, String prenom, int age, String password, String confirmationPassword){
         /*System.out.println("nom: "+nom);

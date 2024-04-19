@@ -11,7 +11,8 @@ import java.sql.SQLException;
 
 public class RecuperationBouton {
     private JButton JB;
-
+    private JList liste;
+    public RecuperationBouton(JList<String> liste){this.liste=liste;}
     public RecuperationBouton(JButton bouton) {
         this.JB = bouton;
     }
@@ -206,10 +207,10 @@ public class RecuperationBouton {
                 ////Generale g = new Generale();
                 // Afficher les informations saisies dans une nouvelle interface
                 System.out.println("BOUTON VALDER APPUUYER");
-                try {
+                /*try {
                     if(v.verifierDisponibiliteFilm(utilisateur,motDePasse)){
                         frame.dispose();
-                        g.LancementJeux(v.getType(utilisateur,motDePasse));
+                        g.LancementJeux(personne);
                         // CODE DU JEUX
                     }
                     else {

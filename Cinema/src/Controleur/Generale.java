@@ -43,8 +43,8 @@ public class Generale extends JFrame {
         connexion1.setFont(new Font("Arial",Font.BOLD,18));
         connexion1.setForeground(new Color(64, 64, 64));
         RecuperationBouton listener1 = new RecuperationBouton(connexion1); // Création de l'écouteur avec le bouton
-        //listener1.ButtonConnexion(personne,connexion1,frame);
-        listener1.ButtonConnexion(connexion1,frame);
+        listener1.ButtonConnexion(personne,connexion1,frame);
+        //listener1.ButtonConnexion(connexion1,frame);
         panel.add(connexion1);
 
         Bouton invite = new BoutonAppuie(0,0,50,50,"Invité");

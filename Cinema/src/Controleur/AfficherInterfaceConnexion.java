@@ -2,6 +2,7 @@ package Controleur;
 
 import Modele.Bouton;
 import Modele.BoutonAppuie;
+import Modele.Personne;
 
 import javax.swing.*;
 import java.awt.*;
