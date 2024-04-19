@@ -110,6 +110,15 @@ public void Jlistener() {
             }
         });
     }
+   /* public void ButtonAge(JComboBox comboBoxAge){
+        comboBoxAge.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                JComboBox<?> comboBox = (JComboBox<?>) e.getSource();
+                Integer age = (Integer) comboBox.getSelectedItem();
+                System.out.println("L'utilisateur a sélectionné l'âge : " + age);
+            }
+        });
+    }*/
     public void ButtonInvite(JButton boutonInvite, JFrame frame){
         boutonInvite.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -132,13 +141,39 @@ public void Jlistener() {
             }
         });
     }
+    public void ButtonEnregistrer(JButton boutonEnregistrer,JTextField nom, JTextField prenom,JComboBox comboBoxAge,JTextField password, JTextField confirmationPassword,JFrame frame){
+        boutonEnregistrer.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Integer selectedOption = (Integer) comboBoxAge.getSelectedItem();
+                String nomUtilisateur = nom.getText();
+                String prenomUtilisateur = prenom.getText();
+                int age = selectedOption;
+                String mdp = password.getText();
+                String confirmMDP = confirmationPassword.getText();
+
+                try {
+                    Connexion v = new Connexion();
+                    if(v.verificationInscription(nomUtilisateur,prenomUtilisateur,age,mdp,confirmMDP)){
+                        v.InscriptionBDD(nomUtilisateur,prenomUtilisateur,age,mdp);
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "Veuillez remplir tous les champs de l'inscription,\n Le mot de passe doit être identique à la confirmation.", "Erreur d'inscription", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                } catch (ClassNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+    }
     public void ButtonInscription(JButton boutonInscription, JFrame frame){
         boutonInscription.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Code à exécuter lorsque le bouton de connexion est cliqué
                 frame.dispose(); // Fermer la fenêtre actuelle
-                Inscription inscrit=new Inscription();
-                inscrit.afficherInterfaceInscription(frame);
+                AfficherInterfaceConnexion a = new AfficherInterfaceConnexion();
+                a.FormulaireInscription(frame);
                 // Afficher l'interface de saisie utilisateur et mot de passe
 
                 // CODE D'INSCRIPTION ICI
