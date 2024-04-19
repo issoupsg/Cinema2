@@ -1,4 +1,4 @@
-package Controleur;
+package Modele;
 
 import Modele.Connexion;
 

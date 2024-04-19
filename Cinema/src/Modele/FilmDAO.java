@@ -1,4 +1,4 @@
-package Controleur;
+package Modele;
 
 import java.sql.SQLException;
 import java.util.ArrayList;

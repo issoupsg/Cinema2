@@ -1,6 +1,4 @@
-package Controleur;
-
-import Modele.Connexion;
+package Modele;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -8,13 +6,15 @@ import java.util.ArrayList;
 public class FilmDAOimpl implements FilmDAO{
     public Connection connection;
     public ArrayList<Film> liste_films;
+    public final String driver = "jdbc:mysql://localhost:3306/cinema";
+    public final String user = "root";
+    public final String mdp = "";
 
     public FilmDAOimpl()
     {
         try {
             // Connexion à la base de données
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "");
-
+            connection = DriverManager.getConnection(driver, user, mdp);
             // Initialisation de la liste des films
             liste_films = new ArrayList<>();
 
@@ -43,7 +43,7 @@ public class FilmDAOimpl implements FilmDAO{
     }
     @Override
     public void ajouterFilm(Film f) throws SQLException, ClassNotFoundException {
-        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "");
+        connection = DriverManager.getConnection(driver, user, mdp);
         liste_films.add(f);
         String sqlInsert = "INSERT INTO film (nom_film , auteur, nbrplace, image_film) VALUES (?, ?, ?, ?)";
         PreparedStatement statement = connection.prepareStatement(sqlInsert);
@@ -57,7 +57,7 @@ public class FilmDAOimpl implements FilmDAO{
     }
     @Override
     public void supprimerFilm(Film f) throws SQLException, ClassNotFoundException{
-        connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cinema", "root", "");
+        connection = DriverManager.getConnection(driver, user, mdp);
         liste_films.remove(f);
         String sqlStatement = "DELETE FROM film WHERE nom_film = ?";
         PreparedStatement statement = connection.prepareStatement(sqlStatement);
@@ -65,6 +65,5 @@ public class FilmDAOimpl implements FilmDAO{
         statement.executeUpdate();
         statement.close();
         connection.close();
-
     }
 }
