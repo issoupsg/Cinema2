@@ -42,30 +42,30 @@ public class Generale extends JFrame {
 
         Bouton connexion = new BoutonAppuie(0,0,0,0,"Connexion");
         JButton connexion1 = connexion.CreaBouton();
-        connexion1.setBounds(30,50,150,30);
+        connexion1.setBounds(30,60,150,30);
         connexion1.setBackground(Color.orange);
         connexion1.setFont(new Font("Arial",Font.BOLD,18));
-        connexion1.setForeground(Color.white);
+        connexion1.setForeground(new Color(64, 64, 64));
         RecuperationBouton listener1 = new RecuperationBouton(connexion1); // Création de l'écouteur avec le bouton
         listener1.ButtonConnexion(connexion1,frame);
         panel.add(connexion1);
 
         Bouton invite = new BoutonAppuie(0,0,50,50,"Invité");
         JButton invite1 = invite.CreaBouton();
-        invite1.setBounds(210,50,150,30);
+        invite1.setBounds(210,60,150,30);
         invite1.setBackground(Color.orange);
         invite1.setFont(new Font("Arial",Font.BOLD,18));
-        invite1.setForeground(Color.white);
+        invite1.setForeground(new Color(64, 64, 64));
         RecuperationBouton listener2 = new RecuperationBouton(invite1); // Création de l'écouteur avec le bouton
         listener2.ButtonInvite(invite1,frame);
         panel.add(invite1);
 
         Bouton inscription = new BoutonAppuie(0,0,50,50,"Inscription");
         JButton inscription1 = inscription.CreaBouton();
-        inscription1.setBounds(390,50,150,30);
+        inscription1.setBounds(390,60,150,30);
         inscription1.setBackground(Color.orange);
         inscription1.setFont(new Font("Arial",Font.BOLD,18));
-        inscription1.setForeground(Color.white);
+        inscription1.setForeground(new Color(64, 64, 64));
         RecuperationBouton listener3 = new RecuperationBouton(inscription1); // Création de l'écouteur avec le bouton
         listener3.ButtonInscription(inscription1,frame);
         panel.add(inscription1);

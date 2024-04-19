@@ -85,13 +85,13 @@ public class AfficherInterfaceConnexion {
         JLabel label1=new JLabel("Formulaire d'inscription");
         label1.setBounds(60,10,300,30);
         label1.setFont(new Font("Arial",Font.BOLD,22));
-        label1.setForeground(Color.white);
+        label1.setForeground(new Color(64, 64, 64));
         panel.add(label1);
 
         JLabel label2=new JLabel("Nom :");
         label2.setBounds(20,60,300,30);
         label2.setFont(new Font("Arial",Font.BOLD,18));
-        label2.setForeground(Color.white);
+        label2.setForeground(new Color(64, 64, 64));
         panel.add(label2);
 
         JTextField text1=new JTextField();
@@ -101,7 +101,7 @@ public class AfficherInterfaceConnexion {
         JLabel label3=new JLabel("Prénom :");
         label3.setBounds(20,100,300,30);
         label3.setFont(new Font("Arial",Font.BOLD,18));
-        label3.setForeground(Color.white);
+        label3.setForeground(new Color(64, 64, 64));
         panel.add(label3);
 
         JTextField text2=new JTextField();
@@ -111,7 +111,7 @@ public class AfficherInterfaceConnexion {
         JLabel label4=new JLabel("Age :");
         label4.setBounds(20,140,300,30);
         label4.setFont(new Font("Arial",Font.BOLD,18));
-        label4.setForeground(Color.white);
+        label4.setForeground(new Color(64, 64, 64));
         panel.add(label4);
 
         JComboBox comboBoxAge=new JComboBox();
@@ -125,7 +125,7 @@ public class AfficherInterfaceConnexion {
         JLabel password =new JLabel("Mot de passe :");
         password.setBounds(20,180,300,30);
         password.setFont(new Font("Arial",Font.BOLD,18));
-        password.setForeground(Color.white);
+        password.setForeground(new Color(64, 64, 64));
         panel.add(password);
 
         JTextField textPassword=new JTextField();
@@ -135,7 +135,7 @@ public class AfficherInterfaceConnexion {
         JLabel ConfirmatonPassword =new JLabel("Confirmation :");
         ConfirmatonPassword.setBounds(20,220,300,30);
         ConfirmatonPassword.setFont(new Font("Arial",Font.BOLD,18));
-        ConfirmatonPassword.setForeground(Color.white);
+        ConfirmatonPassword.setForeground(new Color(64, 64, 64));
         panel.add(ConfirmatonPassword);
 
         JTextField textConfirmationPassword=new JTextField();
@@ -147,7 +147,7 @@ public class AfficherInterfaceConnexion {
         boutonEnregister1.setBounds(30,270,150,30);
         boutonEnregister1.setBackground(Color.orange);
         boutonEnregister1.setFont(new Font("Arial",Font.BOLD,18));
-        boutonEnregister1.setForeground(Color.white);
+        boutonEnregister1.setForeground(new Color(64, 64, 64));
         RecuperationBouton listener1 = new RecuperationBouton(boutonEnregister1); // Création de l'écouteur avec le bouton
         listener1.ButtonEnregistrer(boutonEnregister1,text1,text2,comboBoxAge,textPassword,textConfirmationPassword,frame);
         panel.add(boutonEnregister1);
@@ -157,7 +157,7 @@ public class AfficherInterfaceConnexion {
         boutonRetour1.setBounds(210,270,150,30);
         boutonRetour1.setBackground(Color.orange);
         boutonRetour1.setFont(new Font("Arial",Font.BOLD,18));
-        boutonRetour1.setForeground(Color.white);
+        boutonRetour1.setForeground(new Color(64, 64, 64));
         RecuperationBouton listener2 = new RecuperationBouton(boutonRetour1); // Création de l'écouteur avec le bouton
         listener2.ButtonRetour(boutonRetour1,frame);
         panel.add(boutonRetour1);
