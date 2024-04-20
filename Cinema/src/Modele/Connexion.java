@@ -318,4 +318,20 @@ public class Connexion {
             return true;
         }
     }
+    public void decrementerPlaces(String nomFilm, int placesVendues) throws SQLException {
+        // Requête SQL pour mettre à jour le nombre de places
+        String sql = "UPDATE film SET nbrplace = nbrplace - ? WHERE nom_film = ? AND nbrplace >= ?";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, placesVendues);   // Nombre de places à décrémenter
+            pstmt.setString(2, nomFilm);      // Titre du film
+            pstmt.setInt(3, placesVendues);   // Condition pour s'assurer qu'il y a suffisamment de places
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows == 0) {
+                // Aucune ligne affectée signifie que soit le film n'existe pas, soit il n'y avait pas assez de places
+                throw new SQLException("Aucune mise à jour effectuée - vérifiez le titre ou la disponibilité des places.");
+            }
+        }
+    }
 }

@@ -264,62 +264,58 @@ public void Jlistener() {
     }
 
 
-    public void ajouterListenernbrfilm(JTextField field, Page Acceuil, JTextField field2) {
+    public void ajouterListenernbrfilm(JTextField field, Page Acceuil, JTextField field2,Personne personne) {
         JB.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String valeurBouton = field.getText().trim();
-                String getText = field2.getText();
-                int nombrePlce;
-                int prix;
-                System.out.println("valeur bouton "+ valeurBouton);
-                // Validation du nombre de places
+                String titreFilm = field.getText().trim();
+                String inputPlaces = field2.getText().trim();
                 try {
-                    nombrePlce = Integer.parseInt(getText);
-                    if (nombrePlce < 0) {
+                    int nombrePlaces = Integer.parseInt(inputPlaces);
+                    if (nombrePlaces < 0) {
                         JOptionPane.showMessageDialog(null, "Le nombre de places ne peut pas être négatif.", "Erreur de validation", JOptionPane.ERROR_MESSAGE);
-
+                        return;
                     }
-
-                     // Mot de passe
-
-                    try {Connexion sql = new Connexion();
-                        System.out.println(nombrePlce);
-                        System.out.println(sql.getnbrplace(valeurBouton));
-                        if(nombrePlce > sql.getnbrplace(valeurBouton))
-                        {
-                            JOptionPane.showMessageDialog(null, "Pas assez de place ou pas bon titre", "Erreur de validation", JOptionPane.ERROR_MESSAGE);
-
+                    try {
+                        Connexion sql = new Connexion();
+                        int placesDisponibles = sql.getnbrplace(titreFilm);
+                        if (nombrePlaces > placesDisponibles) {
+                            JOptionPane.showMessageDialog(null, "Vous depassez le nombres de place disponible. Veuillez réessayer", "Erreur de validation", JOptionPane.ERROR_MESSAGE);
+                            return;
                         }
-                        prix = sql.getnbrfilm(valeurBouton,nombrePlce);
-                        String valeur=sql.getFilmName(valeurBouton);
-                        if(valeur=="")
-                        {
-                            valeur="/fermer.jpeg";
+
+                        int prix = sql.getnbrfilm(titreFilm, nombrePlaces);
+                        String imageUrl = sql.getFilmName(titreFilm);
+                        if (imageUrl.equals("")) {
+                            imageUrl = "/fermer.jpeg";
                         }
-                        Acceuil.afficherImageURL(valeur,0,0);
-                        String resume= sql.getresume(valeurBouton);
+
+                        Acceuil.afficherImageURL(imageUrl, 0, 0);
+                        String resume = sql.getresume(titreFilm);
                         Acceuil.ajouterResume(resume);
-                        System.out.println("Nom du film récupéré : " + prix);
-                        // Vous pouvez effectuer d'autres actions ici, comme mettre à jour l'interface utilisateur avec le nom du film
-                    } catch (SQLException ex) {
-                        JOptionPane.showMessageDialog(null, "Erreur SQL: " + ex.getMessage(), "Erreur SQL", JOptionPane.ERROR_MESSAGE);
-                    } catch (ClassNotFoundException ex) {
-                        JOptionPane.showMessageDialog(null, "Driver JDBC non trouvé: " + ex.getMessage(), "Erreur de Driver", JOptionPane.ERROR_MESSAGE);
+
+                        JOptionPane.showMessageDialog(null, "Réservation pour " + nombrePlaces + " places confirmée. Prix total : " + prix + "euros", "Confirmation", JOptionPane.INFORMATION_MESSAGE);
+                        int response = JOptionPane.showConfirmDialog(null, "Réserver " + nombrePlaces + " places pour le film '" + titreFilm + "' pour un total de " + prix + " euros?\n" , "Confirmation de la réservation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        if (response == JOptionPane.YES_OPTION) {
+                            JOptionPane.showMessageDialog(null, "Votre réservation a été confirmée. La facture vous sera envoyée par email.", "Réservation confirmée", JOptionPane.INFORMATION_MESSAGE);
+                            sql.decrementerPlaces(titreFilm, nombrePlaces);
+                            Acceuil.dispose();
+                            Generale genaral = new Generale();
+                            genaral.LancementJeux(personne);
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Réservation annulée.", "Annulation", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    } finally {
                     }
+
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Veuillez entrer un nombre valide pour les places.", "Erreur de format", JOptionPane.ERROR_MESSAGE);
-                    return;
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Erreur SQL: " + ex.getMessage(), "Erreur SQL", JOptionPane.ERROR_MESSAGE);
+                } catch (ClassNotFoundException ex) {
+                    JOptionPane.showMessageDialog(null, "Driver JDBC non trouvé: " + ex.getMessage(), "Erreur de Driver", JOptionPane.ERROR_MESSAGE);
                 }
-                catch (IllegalArgumentException ex) {
-                    JOptionPane.showMessageDialog(null, ex.getMessage(), "Erreur de validation", JOptionPane.ERROR_MESSAGE);
-                    return; // Sortir de la méthode si le nombre est négatif
-                }
-
-                System.out.println("La valeur du bouton est : " + valeurBouton);
-
-                // Connexion à la base de données et récupération de données
-
             }
         });
     }

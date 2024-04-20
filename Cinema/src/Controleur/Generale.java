@@ -152,7 +152,7 @@ public class Generale extends JFrame {
             JTextField field2=recherche.text();
             Acceuil.ajouterbarre(field,0,0,450,200);
             RecuperationBouton listener3=new RecuperationBouton(bouton2);
-            listener3.ajouterListenernbrfilm(field,Acceuil,field2);
+            listener3.ajouterListenernbrfilm(field,Acceuil,field2,personne);
             Acceuil.getbuffer().add(field2,BorderLayout.CENTER);
             Acceuil.getbuffer().add(bouton2, BorderLayout.CENTER);
             Acceuil.getbuffer().add(field,BorderLayout.CENTER);
