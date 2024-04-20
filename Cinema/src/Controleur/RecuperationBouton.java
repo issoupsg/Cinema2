@@ -7,6 +7,7 @@ import Vue.*;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
 
@@ -322,8 +323,76 @@ public void Jlistener() {
             }
         });
     }
+    public class factureDemande extends JFrame {
+        public factureDemande(Personne personne, String titreFilm, int nombrePlaces, int prix, int heure) {
+            setTitle("Informations de Facturation");
+            setSize(350, 200);
+            setLayout(new GridLayout(6, 2));
+
+            // Affichage du nom de la personne
+            add(new JLabel("Nom de la personne:"));
+            JLabel nomPersonneLabel = new JLabel(personne.getNom());
+            add(nomPersonneLabel);
+
+            // Affichage du nom du film
+            add(new JLabel("Nom du film:"));
+            JLabel nomFilmLabel = new JLabel(titreFilm);
+            add(nomFilmLabel);
+
+            // Affichage de l'heure du film
+            add(new JLabel("Heure du film:"));
+            JLabel heureFilmLabel = new JLabel(String.valueOf(heure));
+            add(heureFilmLabel);
+
+            // Affichage du nombre de places
+            add(new JLabel("Nombre de places:"));
+            JLabel nombrePlacesLabel = new JLabel(String.valueOf(nombrePlaces));
+            add(nombrePlacesLabel);
+
+            // Affichage du prix
+            add(new JLabel("Prix:"));
+            JLabel prixLabel = new JLabel(String.valueOf(prix) + " euros");
+            add(prixLabel);
+
+            // Bouton pour fermer la fenêtre (optionnel)
+            JButton closeButton = new JButton("Fermer");
+            closeButton.addActionListener(e -> dispose());
+            add(closeButton);
+
+            setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            setVisible(true);
+        }
+    }
 
 
+    public void factureBouton(JButton bouton, Page Acceuil, Personne personne) throws SQLException, ClassNotFoundException {
+        bouton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                Connexion sql = null;
+
+                try {
+                    sql = new Connexion();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                } catch (ClassNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
+                if(personne.getClasse()>1){
+                    try {
+                        JList<String> stringJList = sql.lireFacture(personne);
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+                else {
+                    Acceuil.dispose();
+                    AfficherInterfaceConnexion a = new AfficherInterfaceConnexion();
+                    JFrame frame = null;
+                    a.afficherInterfaceConnexion(frame);
+                }
+            }
+        });
+    }
 
     public void ajouterListenernbrfilm(JTextField field, Page Acceuil, JTextField field2,Personne personne,JComboBox box) {
         JB.addActionListener(new ActionListener() {
@@ -351,7 +420,7 @@ public void Jlistener() {
                         if(placesDisponibles == 0){JOptionPane.showMessageDialog(null, "Horraire non dispo", "Erreur de validation", JOptionPane.ERROR_MESSAGE);
                             return;}
 
-                        int prix = sql.getnbrfilm(titreFilm, nombrePlaces);
+                        int prix = sql.getnbrfilm(personne, titreFilm, nombrePlaces, heure);
                         String imageUrl = sql.getFilmName(titreFilm,age);
                         if (imageUrl.equals("")) {
                             imageUrl = "/fermer.jpeg";
@@ -366,6 +435,9 @@ public void Jlistener() {
                         if (response == JOptionPane.YES_OPTION) {
                             JOptionPane.showMessageDialog(null, "Votre réservation a été confirmée. La facture vous sera envoyée par email.", "Réservation confirmée", JOptionPane.INFORMATION_MESSAGE);
                             sql.decrementerPlaces(titreFilm, nombrePlaces,heure);
+                            sql.ajouterFacture(personne, titreFilm, nombrePlaces, prix, heure);
+
+                            new factureDemande(personne, titreFilm, nombrePlaces, prix, heure);
                             Acceuil.dispose();
                             Generale genaral = new Generale();
                             genaral.LancementJeux(personne);
