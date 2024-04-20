@@ -268,6 +268,7 @@ public void Jlistener() {
                 Generale g = new Generale();
                 try {
                     g.LancementJeux(personne);
+                    
                     frame.dispose();
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
