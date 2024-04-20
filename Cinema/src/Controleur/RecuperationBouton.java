@@ -11,6 +11,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
 
+
+
 public class RecuperationBouton {
     private JButton JB;
     private JList liste;
@@ -259,6 +261,22 @@ public void Jlistener() {
             }
         });
     }
+    public void BoutonPage(JButton boutonRetour,Personne personne, JFrame frame){
+        boutonRetour.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Fermer la fenêtre des informations utilisateur
+                Generale g = new Generale();
+                try {
+                    g.LancementJeux(personne);
+                    frame.dispose();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                } catch (ClassNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+    }
     public void ButtonRetour1(JButton boutonRetour, JFrame frame){
         boutonRetour.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -365,30 +383,26 @@ public void Jlistener() {
     }
 
 
-    public void factureBouton(JButton bouton, Page Acceuil, Personne personne) throws SQLException, ClassNotFoundException {
+    public void factureBouton(JButton bouton, Page Acceuil, Personne personne) {
         bouton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 Connexion sql = null;
-
+                JList<String> facturesList = new JList<>();
                 try {
-                    sql = new Connexion();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                } catch (ClassNotFoundException ex) {
-                    throw new RuntimeException(ex);
-                }
-                if(personne.getClasse()>1){
-                    try {
-                        JList<String> stringJList = sql.lireFacture(personne);
-                    } catch (SQLException ex) {
-                        throw new RuntimeException(ex);
+                    sql = new Connexion(); // Tente de créer une connexion
+                    if (personne.getClasse() > 1) {
+
+                         facturesList = sql.lireFacture(personne); // Récupère les factures
+                        EspaceAdmin espace = new EspaceAdmin();
+                        espace.lireFacture(facturesList, personne);
+                        Acceuil.dispose();
+                    } else {
+                        Acceuil.dispose(); // Ferme l'interface actuelle
+                        AfficherInterfaceConnexion a = new AfficherInterfaceConnexion();
+                        a.afficherInterfaceConnexion(new JFrame()); // Ouvre une nouvelle interface de connexion
                     }
-                }
-                else {
-                    Acceuil.dispose();
-                    AfficherInterfaceConnexion a = new AfficherInterfaceConnexion();
-                    JFrame frame = null;
-                    a.afficherInterfaceConnexion(frame);
+                } catch (SQLException | ClassNotFoundException ex) {
+                    JOptionPane.showMessageDialog(Acceuil.getFrame(), "Erreur lors de la connexion : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

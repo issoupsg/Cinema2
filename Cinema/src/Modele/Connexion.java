@@ -409,27 +409,35 @@ public class Connexion {
         }
     }
 
-    public JList<String> lireFacture(Personne personne) throws SQLException {
-        String query = "SELECT * FROM factures WHERE id_personne = ?";
+    public JList<String>  lireFacture(Personne personne) throws SQLException {
+        String query = "SELECT * FROM facture WHERE id_personne = ?";
         DefaultListModel<String> model = new DefaultListModel<>();  // Utiliser DefaultListModel pour stocker les données des factures
-        Connection conn = DriverManager.getConnection("jdbc:yourdatabaseurl", "username", "password"); // Assure-toi que la connexion est établie correctement
-        PreparedStatement pstmt = conn.prepareStatement(query);
+        JList<String> mod = new JList<>();
 
-        pstmt.setInt(1, personne.getId());  // Assurez-vous que `Personne` a une méthode `getId()`
-        ResultSet rs = pstmt.executeQuery();
+        try{
+            PreparedStatement pstmt = conn.prepareStatement(query);
 
-        while (rs.next()) {
-            // Format: "Heure: [heure], Nom: [nom_personne], Film: [titre_film], Places: [nombre_places], Prix: [prix]"
-            String factures = String.format("Heure: %d, Nom: %s, Film: %s, Places: %d, Prix: %.2f",
-                    rs.getInt("heure"),
-                    rs.getString("nom_personne"),
-                    rs.getString("titre_film"),
-                    rs.getInt("nombre_places"),
-                    rs.getDouble("prix"));
-            model.addElement(factures);  // Ajouter chaque facture au modèle
+            pstmt.setInt(1, personne.getId());  // Assurez-vous que `Personne` a une méthode `getId()`
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                // Format: "Heure: [heure], Nom: [nom_personne], Film: [titre_film], Places: [nombre_places], Prix: [prix]"
+                String factures = String.format("Heure: %d, Nom: %s, Film: %s, Places: %d, Prix: %.2f",
+                        rs.getInt("heure"),
+                        rs.getString("nom"),
+                        rs.getString("nom_film"),
+                        rs.getInt("nbrplace"),
+                        rs.getDouble("prix"));
+                model.addElement(factures);  // Ajouter chaque facture au modèle
+            }
+            mod.setModel(model);
+            for(int i =0; i< model.getSize(); i++){
+                System.out.println("facture : "+model.getElementAt(i));
+            }
+
+        } catch(SQLException e) {
+            e.printStackTrace();
         }
-
-        JList<String> listeFactures = new JList<>(model);  // Créer la JList avec le modèle rempli
-        return listeFactures;
+        return mod;
     }
 }

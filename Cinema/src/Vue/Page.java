@@ -159,4 +159,8 @@ public class Page extends JFrame {
     public void calculerPrix(String valeur, int nombreplce) {
 
     }
+
+    public Component getFrame() {
+        return null;
+    }
 }
