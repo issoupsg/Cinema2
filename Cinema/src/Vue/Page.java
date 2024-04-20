@@ -46,7 +46,7 @@ public class Page extends JFrame {
 
 // Créer un panel sans marge interne
         ////panel.setBorder(BorderFactory.createEmptyBorder());
-        buffer2.setLayout(new GridLayout(2, 2));
+        buffer2.setLayout(new GridLayout(3, 2));
 
         ////frame.add(buffer2);
 
@@ -74,7 +74,25 @@ public class Page extends JFrame {
         ////bouton.setBounds(x,y,largeur,hauteur);
         buffer2.add(bouton);  // Redessine le buffer
     }
+    public void ajoutertext(String nom){
+        JLabel label2=new JLabel(nom);
+        label2.setBounds(20,60,300,30);
+        label2.setFont(new Font("Arial",Font.BOLD,18));
+        label2.setForeground(new Color(64, 64, 64));
+        label2.setHorizontalAlignment(SwingConstants.CENTER);
+        label2.setVerticalAlignment(SwingConstants.CENTER);
+        buffer2.add(label2);
+    }
 
+    public JComboBox ajoutercombo(JComboBox comboBoxheures){
+        comboBoxheures.setBounds(160,140,200,25);
+        for (int i = 1; i <= 24; i++) {
+            comboBoxheures.addItem(i);
+        }
+        buffer2.add(comboBoxheures);
+        return comboBoxheures;
+
+    }
     public void afficherImageURL(String nomimage,int coordonnex,int coordonney) {
         SwingUtilities.invokeLater(() -> {
             try {

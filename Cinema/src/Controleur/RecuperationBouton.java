@@ -55,10 +55,15 @@ public void Jlistener() {
     });
 }
 
-    public void ajouterListener2(JTextField field, Page Acceuil) {
+    public void ajouterListener2(JTextField field, Page Acceuil, JComboBox box) {
         JB.addActionListener(new ActionListener() {
+
+
             @Override
             public void actionPerformed(ActionEvent e) {
+                Integer heure = (Integer) box.getSelectedItem();
+                int age=heure;
+
                 String valeur;
                 String resume;
 
@@ -66,16 +71,20 @@ public void Jlistener() {
                 String valeurBouton = field.getText();
 
 
-                System.out.println("La valeur du bouton est : " + valeurBouton);
+                System.out.println("La valeur du bouton est : " + valeurBouton +age );
                 Connexion sql = null; // Passer la connexion à la classe RechercheSql
                 try {
                     sql = new Connexion();
-                    valeur=sql.getFilmName(valeurBouton);
-                    System.out.println("yey "+valeur);
+                    valeur=sql.getFilmName(valeurBouton,heure);
+                    int nbrplace=sql.getnbrplace(valeurBouton,heure);
+
                     if(valeur=="")
                     {
+                        JOptionPane.showMessageDialog(null, "le film n'existe pas ou l'heure n est pas disponible", "Erreur de validation", JOptionPane.ERROR_MESSAGE);
                         valeur="/fermer.jpeg";
-                    }
+                        return;
+                    }if(nbrplace == 0){JOptionPane.showMessageDialog(null, "Horraire non dispo", "Erreur de validation", JOptionPane.ERROR_MESSAGE);
+                        return;}
                     Acceuil.afficherImageURL(valeur,200,200);
                     resume= sql.getresume(valeurBouton);
                     Acceuil.ajouterResume(resume);
@@ -89,7 +98,7 @@ public void Jlistener() {
                 }
                 // Vous pouvez faire d'autres traitements avec la valeur récupérée ici
                 try {
-                    String val = sql.getFilmName(valeurBouton);
+                    String val = sql.getFilmName(valeurBouton,heure);
                     System.out.println(val);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
@@ -316,10 +325,13 @@ public void Jlistener() {
 
 
 
-    public void ajouterListenernbrfilm(JTextField field, Page Acceuil, JTextField field2,Personne personne) {
+    public void ajouterListenernbrfilm(JTextField field, Page Acceuil, JTextField field2,Personne personne,JComboBox box) {
         JB.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                Integer heure = (Integer) box.getSelectedItem();
+                int age=heure;
+                System.out.println("euh"+box.getSelectedItem());
                 String titreFilm = field.getText().trim();
                 String inputPlaces = field2.getText().trim();
                 try {
@@ -330,14 +342,17 @@ public void Jlistener() {
                     }
                     try {
                         Connexion sql = new Connexion();
-                        int placesDisponibles = sql.getnbrplace(titreFilm);
-                        if (nombrePlaces > placesDisponibles) {
+                        int placesDisponibles = sql.getnbrplace(titreFilm,age);
+                        System.out.println("le nombre de place est de "+placesDisponibles);
+                        if (nombrePlaces > placesDisponibles && placesDisponibles!=0) {
                             JOptionPane.showMessageDialog(null, "Vous depassez le nombres de place disponible. Veuillez réessayer", "Erreur de validation", JOptionPane.ERROR_MESSAGE);
                             return;
                         }
+                        if(placesDisponibles == 0){JOptionPane.showMessageDialog(null, "Horraire non dispo", "Erreur de validation", JOptionPane.ERROR_MESSAGE);
+                            return;}
 
                         int prix = sql.getnbrfilm(titreFilm, nombrePlaces);
-                        String imageUrl = sql.getFilmName(titreFilm);
+                        String imageUrl = sql.getFilmName(titreFilm,age);
                         if (imageUrl.equals("")) {
                             imageUrl = "/fermer.jpeg";
                         }
@@ -350,7 +365,7 @@ public void Jlistener() {
                         int response = JOptionPane.showConfirmDialog(null, "Réserver " + nombrePlaces + " places pour le film '" + titreFilm + "' pour un total de " + prix + " euros?\n" , "Confirmation de la réservation", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                         if (response == JOptionPane.YES_OPTION) {
                             JOptionPane.showMessageDialog(null, "Votre réservation a été confirmée. La facture vous sera envoyée par email.", "Réservation confirmée", JOptionPane.INFORMATION_MESSAGE);
-                            sql.decrementerPlaces(titreFilm, nombrePlaces);
+                            sql.decrementerPlaces(titreFilm, nombrePlaces,heure);
                             Acceuil.dispose();
                             Generale genaral = new Generale();
                             genaral.LancementJeux(personne);

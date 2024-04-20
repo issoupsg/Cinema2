@@ -143,7 +143,7 @@ public class Generale extends JFrame {
             JTextField field=recherche.text();
             Acceuil.ajouterbarre(field,0,0,450,200);
             RecuperationBouton listener2=new RecuperationBouton(bouton1);
-            listener2.ajouterListener2(field,Acceuil);
+
 
 
 
@@ -152,7 +152,7 @@ public class Generale extends JFrame {
             JTextField field2=recherche.text();
             Acceuil.ajouterbarre(field,0,0,450,200);
             RecuperationBouton listener3=new RecuperationBouton(bouton2);
-            listener3.ajouterListenernbrfilm(field,Acceuil,field2,personne);
+
             Acceuil.getbuffer().add(field2,BorderLayout.CENTER);
             Acceuil.getbuffer().add(bouton2, BorderLayout.CENTER);
             Acceuil.getbuffer().add(field,BorderLayout.CENTER);
@@ -161,8 +161,19 @@ public class Generale extends JFrame {
 
             Acceuil.afficherImageURL("/fermer.jpeg",Acceuil.getHeight(),0);
             Acceuil.ajouterResume("RESUME ICI");
+            JComboBox box=new JComboBox<>();
+            box=Acceuil.ajoutercombo(box);/*/
+          /*  JComboBox comboBoxAge=new JComboBox();
+            comboBoxAge.setBounds(160,140,200,25);
+            for (int i = 1; i <= 100; i++) {
+                comboBoxAge.addItem(i);
+            }*/
+          ////  Acceuil.getbuffer().add(comboBoxAge);
 
-
+            box=Acceuil.ajoutercombo(box);;
+            listener3.ajouterListenernbrfilm(field,Acceuil,field2,personne,box);
+            Acceuil.ajoutertext("Indiquer l'heure ");
+            listener2.ajouterListener2(field,Acceuil,box);
             Acceuil.setVisible(true);
             Acceuil.revalidate();
             Acceuil.getPanel().setPreferredSize(new Dimension(1100,600));

@@ -97,12 +97,13 @@ public class Connexion {
         return filmName;
 
     }
-    public int getnbrplace(String nom) throws SQLException 
+    public int getnbrplace(String nom, int age) throws SQLException
     {
         int nbrplace = 0;
-        String sqlSelect = "SELECT nbrplace FROM film WHERE nom_film = ?";
+        String sqlSelect = "SELECT nbrplace FROM film WHERE nom_film = ? AND heure=?";
         PreparedStatement psSelect = conn.prepareStatement(sqlSelect);
         psSelect.setString(1, nom);
+        psSelect.setInt(2, age);
         ResultSet rs = psSelect.executeQuery();
         if (rs.next()) {
             nbrplace = rs.getInt("nbrplace");
@@ -114,13 +115,15 @@ public class Connexion {
 
         return nbrplace;
     }
-    public String getFilmName(String nom) throws SQLException {
+
+    public String getFilmName(String nom,int heure) throws SQLException {
         String filmName = "";
-        String sqlSelect = "SELECT image_film FROM film WHERE nom_film = ?";
+        String sqlSelect = "SELECT image_film FROM film WHERE nom_film = ? AND heure=?";
 
         // Utilisation d'un PreparedStatement pour éviter les problèmes de sécurité liés aux injections SQL
         PreparedStatement psSelect = conn.prepareStatement(sqlSelect);
-        psSelect.setString(1, nom); // Lier le paramètre à la valeur 57
+        psSelect.setString(1, nom);
+        psSelect.setInt(2, heure);// Lier le paramètre à la valeur 57
 
         // Exécution de la requête et récupération du résultat
         ResultSet rs = psSelect.executeQuery();
@@ -138,7 +141,7 @@ public class Connexion {
 
     public JList<String> getlistFilms(JList<String> ok) throws SQLException {
         DefaultListModel<String> listModel = new DefaultListModel<>();
-        String sqlSelect = "SELECT nom_film, nbrplace, prix_place FROM film";
+        String sqlSelect = "SELECT nom_film, nbrplace, prix_place,heure FROM film";
         PreparedStatement psSelect = null;
         ResultSet rs = null;
 
@@ -152,8 +155,9 @@ public class Connexion {
                 String filmName = rs.getString("nom_film");
                 int nbPlace = rs.getInt("nbrplace");
                 float prix = rs.getFloat("prix_place");
+                int heure=rs.getInt("heure");
                 // Format de chaque entrée : "Nom du film - Nombre de places - Prix"
-                String entry = filmName + " - " + nbPlace + " places - " + prix + " €";
+                String entry = filmName + " - " + nbPlace + " places - " + prix + " €"+" début à "+heure+"h";
                 listModel.addElement(entry);  // Ajout de l'entrée au modèle de liste
             }
 
@@ -351,14 +355,15 @@ public class Connexion {
             return true;
         }
     }
-    public void decrementerPlaces(String nomFilm, int placesVendues) throws SQLException {
+    public void decrementerPlaces(String nomFilm, int placesVendues, Integer heure) throws SQLException {
         // Requête SQL pour mettre à jour le nombre de places
-        String sql = "UPDATE film SET nbrplace = nbrplace - ? WHERE nom_film = ? AND nbrplace >= ?";
+        String sql = "UPDATE film SET nbrplace = nbrplace - ? WHERE nom_film = ? AND nbrplace >= ? AND heure= ?";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, placesVendues);   // Nombre de places à décrémenter
             pstmt.setString(2, nomFilm);      // Titre du film
-            pstmt.setInt(3, placesVendues);   // Condition pour s'assurer qu'il y a suffisamment de places
+            pstmt.setInt(3, placesVendues);
+            pstmt.setInt(4, heure);// Condition pour s'assurer qu'il y a suffisamment de places
 
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
