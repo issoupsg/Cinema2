@@ -65,20 +65,7 @@ public class ListPanel extends JPanel {
             add(scrollPane, BorderLayout.CENTER);
 
             // Ajouter un MouseListener à la JList
-            JList<String> finalNameList = nameList;
-            nameList.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    if (e.getClickCount() == 1) { // Un seul clic
-                        int index = finalNameList.locationToIndex(e.getPoint());
-                        if (index >= 0) {
-                            String selectedName = finalNameList.getModel().getElementAt(index);
-                            System.out.println("Selected Name: " + selectedName);
-                            // Additional actions with the selected name here
-                        }
-                    }
-                }
-            });
+
             list=nameList;
 
         } catch (SQLException e) {

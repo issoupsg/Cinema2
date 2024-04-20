@@ -43,10 +43,10 @@ public class EspaceAdmin extends JFrame {
 
     public void afficherInterfaceAdmin() {
         ListPanel liste=new ListPanel();
-        liste.listeJusteNom();
+
         panel.add(liste,BorderLayout.NORTH);
         RecuperationBouton Jliste=new RecuperationBouton(liste.listeJusteNom());
-
+        ///Jliste.ListenerJ(liste.listeJusteNom());
         Bouton boutonajout = new BoutonAppuie(0,0,50,50,"Ajouter");
         JButton boutonajout1 = boutonajout.CreaBouton();
         RecuperationBouton listener2 = new RecuperationBouton(boutonajout1);
@@ -54,6 +54,17 @@ public class EspaceAdmin extends JFrame {
         Bouton boutonsupp = new BoutonAppuie(0,0,50,50,"Supprimer");
         JButton boutonsupp1 = boutonsupp.CreaBouton();
         RecuperationBouton listenersupp = new RecuperationBouton(boutonsupp1);
+       /// listenersupp.boutetList(liste.listeJusteNom(),boutonsupp1,Jliste);
+        listenersupp.setupComponents(liste.listeJusteNom(),boutonsupp1,frame);
+
+        Bouton boutonmodif = new BoutonAppuie(0,0,50,50,"Modifier");
+        JButton boutonmod = boutonmodif.CreaBouton();
+        RecuperationBouton listenersmod = new RecuperationBouton(boutonmod);
+
+        Bouton boutontop = new BoutonAppuie(0,0,50,50,"Tendence");
+        JButton boutontendence = boutontop.CreaBouton();
+        RecuperationBouton listenerstop = new RecuperationBouton(boutontendence);
+
 
         Bouton boutonRetour = new BoutonAppuie(0,0,50,50,"Retour");
         JButton boutonRetour1 = boutonRetour.CreaBouton();
@@ -62,6 +73,9 @@ public class EspaceAdmin extends JFrame {
         buffer.add(boutonRetour1);
         buffer.add(boutonsupp1);
         buffer.add(boutonajout1);
+        buffer.add(boutonmod);
+        buffer.add(boutontendence);
+
         buffer.setVisible(true);
         frame.add(buffer,BorderLayout.CENTER);
         frame.add(panel,BorderLayout.NORTH);

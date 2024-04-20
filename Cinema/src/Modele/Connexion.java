@@ -13,9 +13,9 @@ public class Connexion {
     public int getnbrplace;
     String databaseName="Cinema";
     String username="root";
-    //String password="";
+    String password="";
 
-    String password="Jack123456";
+   /// String password="Jack123456";
 
 
     public Connexion() throws SQLException, ClassNotFoundException {
@@ -44,6 +44,39 @@ public class Connexion {
         // Création d'une Statement pour exécuter d'autres requêtes si nécessaire
         stmt = conn.createStatement();
     }
+    public void suppFilm(String nom) throws SQLException {
+        String sqlSelect = "SELECT image_film FROM film WHERE nom_film = ?";
+
+        // Utilisation d'un PreparedStatement pour éviter les problèmes de sécurité liés aux injections SQL
+        PreparedStatement psSelect = conn.prepareStatement(sqlSelect);
+        psSelect.setString(1, nom); // Lier le paramètre à la valeur
+
+        // Exécution de la requête et récupération du résultat
+        ResultSet rs = psSelect.executeQuery();
+        if (rs.next()) {
+            // Fermeture du ResultSet et du PreparedStatement utilisé pour la sélection
+            rs.close();
+            psSelect.close();
+
+            // Si le film existe, exécuter une instruction DELETE pour le supprimer
+            String sqlDelete = "DELETE FROM film WHERE nom_film = ?";
+            PreparedStatement psDelete = conn.prepareStatement(sqlDelete);
+            psDelete.setString(1, nom);
+            int rowsDeleted = psDelete.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("Le film a été supprimé avec succès.");
+            } else {
+                System.out.println("Aucun film supprimé.");
+            }
+            psDelete.close();
+        } else {
+            // Si aucun résultat n'est trouvé, le film n'existe pas
+            System.out.println("Aucun film trouvé avec ce nom.");
+            rs.close();
+            psSelect.close();
+        }
+    }
+
     public String getresume(String nom) throws SQLException {
         String filmName="";
         String sqlSelect = "SELECT resume FROM film WHERE nom_film = ?";
@@ -135,7 +168,7 @@ public class Connexion {
     }
     public JList<String> getlistFilmsuniquement(JList<String> ok) throws SQLException {
         DefaultListModel<String> listModel = new DefaultListModel<>();
-        String sqlSelect = "SELECT nom_film FROM film";
+        String sqlSelect = "SELECT nom_film,heure FROM film";
         PreparedStatement psSelect = null;
         ResultSet rs = null;
 
@@ -147,9 +180,9 @@ public class Connexion {
             rs = psSelect.executeQuery();
             while (rs.next()) {  // Utiliser while au lieu de if pour traiter tous les enregistrements
                 String filmName = rs.getString("nom_film");
-
+                    int filmheure = rs.getInt("heure");
                 // Format de chaque entrée : "Nom du film - Nombre de places - Prix"
-                String entry = filmName;
+                String entry = filmName+ " - " + filmheure + "heures";
                 listModel.addElement(entry);  // Ajout de l'entrée au modèle de liste
             }
 
